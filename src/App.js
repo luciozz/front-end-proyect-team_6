@@ -1,9 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import Profile from './components/profile/profile.js';
+import configuration from './configuration.js';
+import Wordpress from './data/wordpress.js';
 
 function App() {
-  return (
+    let myWordpress = new Wordpress(configuration)
+    myWordpress.getPost();
+    return (
     
     <div className="App">
       <Profile user={
