@@ -3,13 +3,15 @@ import './App.css';
 import Profile from './components/profile/profile.js';
 import configuration from './configuration.js';
 import Wordpress from './data/wordpress.js';
+import { APost } from './components/post/Post';
 
 function App() {
     let myWordpress = new Wordpress(configuration)
-    myWordpress.getPost();
+    myWordpress.getPosts();
     return (
     
     <div className="App">
+      {APost(myWordpress.getAPost(1))}
       <Profile user={
           {
             name: 'Juan',
