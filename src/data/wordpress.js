@@ -1,12 +1,15 @@
 import Wapi from 'wpapi'
+import React from 'react'
 
-class Wordpress {
+class Wordpress extends React.Component {
     dataWP = Array()
     ready = false
 
     constructor(props){
         this.http = props.wordpressHttp
         console.log(props)
+
+        React.Children.forEach()
         try{
             this.wp = new Wapi({ endpoint: this.http+'/wp-json'})
         }catch(e){
@@ -14,12 +17,14 @@ class Wordpress {
         }
     }
 
-    getPosts = async () => {
-        await this.wp.posts().get().then( (data) => {
-            this.dataWP = data
-            this.ready = true
-            console.log(data)
-        })
+    getPosts = async (aComponent /*: React.Component*/) => {
+        await this.wp.posts().get()
+            .then( (data) => {
+                this.dataWP = data
+                this.ready = true
+                console.log(data)
+            }
+        )
     }
 
     getAPost(number){
