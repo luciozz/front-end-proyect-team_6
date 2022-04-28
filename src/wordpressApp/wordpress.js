@@ -9,7 +9,9 @@ class Wordpress extends React.Component {
         this.http = props.wordpressHttp
         console.log(props)
 
-        React.Children.forEach()
+        React.Children.forEach(this.props.children, child = {
+            child.changeData()
+        })
         try{
             this.wp = new Wapi({ endpoint: this.http+'/wp-json'})
         }catch(e){
