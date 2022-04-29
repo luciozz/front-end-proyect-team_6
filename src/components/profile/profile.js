@@ -27,6 +27,23 @@ export default class Profile extends React.Component {
         return (
             <div className="profile">
                 <div className="profile-header">
+                <div className="profile-header-info">
+                    <div className="profile-header-info-name">
+                    {this.state.user.name}
+                    </div>
+                    <div className="profile-header-info-username">
+                    @{this.state.user.username}
+                    </div>
+                </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+/*
+            <div className="profile">
+                <div className="profile-header">
                 <div className="profile-header-photo">
                     <img src={this.state.user.photo} alt="profile" />
                 </div>
@@ -47,6 +64,4 @@ export default class Profile extends React.Component {
                 </div>
                 </div>
             </div>
-        );
-    }
-}
+*/
