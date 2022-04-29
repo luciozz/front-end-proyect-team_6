@@ -1,17 +1,18 @@
 import Wapi from 'wpapi'
 import React from 'react'
+import { APost } from '../components/post/Post';
 
 class Wordpress extends React.Component {
     dataWP = Array()
-    ready = false
 
     constructor(props){
+        super(props);
+
         this.http = props.wordpressHttp
         console.log(props)
 
-        React.Children.forEach(this.props.children, child = {
-            child.changeData()
-        })
+        this.state = {ready: false}
+
         try{
             this.wp = new Wapi({ endpoint: this.http+'/wp-json'})
         }catch(e){
@@ -19,22 +20,23 @@ class Wordpress extends React.Component {
         }
     }
 
-    getPosts = async (aComponent /*: React.Component*/) => {
+    componentDidMount(){
+        this.getPosts()
+    }
+
+    getPosts = async () => {
         await this.wp.posts().get()
             .then( (data) => {
                 this.dataWP = data
-                this.ready = true
+                this.setState({ready: true})
                 console.log(data)
             }
         )
     }
 
     getAPost(number){
-        for(let i=10; i--; (i>0)&&(!this.ready)){
-            setTimeout(() => { console.log('espera'+i+' - '+this.ready) }, 2000)
-        }
-        console.log('getApost '+number+' - '+this.ready)
-        if(this.ready){
+        console.log('getApost '+number+' - '+this.state.ready)
+        if(this.state.ready){
             console.log(this.dataWP[number])
             return this.dataWP[number]
         }else return (
@@ -56,6 +58,12 @@ class Wordpress extends React.Component {
                   "rendered": ""
                 }
             }
+        )
+    }
+
+    render(){
+        return (
+            <APost aPostData={this.getAPost(4)}> </APost>
         )
     }
 }

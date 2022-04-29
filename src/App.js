@@ -2,16 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 import Profile from './components/profile/profile.js';
 import configuration from './configuration.js';
-import Wordpress from './data/wordpress.js';
-import { APost } from './components/post/Post';
+import Wordpress from './wordpressApp/wordpress.js';
 
 function App() {
-    let myWordpress = new Wordpress(configuration)
-    myWordpress.getPosts();
     return (
     
     <div className="App">
-      {APost(myWordpress.getAPost(1))}
+      <Wordpress wordpressHttp={configuration.wordpressHttp}>
+      </Wordpress>
       <Profile user={
           {
             name: 'Juan',
