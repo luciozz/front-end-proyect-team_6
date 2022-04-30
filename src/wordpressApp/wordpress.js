@@ -1,6 +1,7 @@
 import Wapi from 'wpapi'
 import React from 'react'
 import APost from '../components/post/Post';
+import { Accordion, Card, Image } from "react-bootstrap";
 
 const postStatus = { pub: 'publish', pend: 'pending', borrador: 'draft'}
 const categories = { sinCategoria: 1, 
@@ -96,8 +97,12 @@ class Wordpress extends React.Component {
         let elements = this.dataWP.map((elem) => {
             return <APost aPostData={elem} fMedia={this.getMedia}> </APost>
         })
-        
-        return elements
+          
+        return (
+            <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}}>
+                {elements}
+            </Accordion>
+        )
     }
 }
 

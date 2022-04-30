@@ -1,5 +1,6 @@
 import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers"
 import React from "react"
+import { Accordion, Card, Image, Button } from "react-bootstrap";
 
 class APost extends React.Component {
 
@@ -21,18 +22,23 @@ class APost extends React.Component {
         let content = this.state.aPostData.excerpt.rendered
         if(this.state.aPostData.id>0){
             return (
-                <div className="apost">
-                    <div className="imagepost">
-                        <img src={this.state.mediaData} />
-                    </div> 
-                    <a href={this.state.aPostData.link}><h1>{this.state.aPostData.title.rendered}</h1></a>
-                    <p>{this.state.aPostData.date}</p>
-                    <div  dangerouslySetInnerHTML={{__html: content}}></div>
-                </div>
+                <Accordion.Item key={this.state.aPostData.id}>
+                    <Accordion.Header as={Card.Header} eventKey={this.state.aPostData.id}>
+                        {this.state.aPostData.title.rendered}
+                    </Accordion.Header>
+                    <Accordion.Collapse eventKey={this.state.aPostData.id}>
+                        <Accordion.Body>
+                            <Image fluid src={this.state.mediaData} alt={this.state.aPostData.title.rendered} />
+                            <h5 style={{marginBottom: "0"}}>{this.state.aPostData.title.rendered}</h5>
+                            <div dangerouslySetInnerHTML={{__html: content}}></div>
+                        </Accordion.Body>
+                    </Accordion.Collapse>
+                </Accordion.Item>
             )
         }else{
             return <div></div>
         }
+
     }
 }
 
