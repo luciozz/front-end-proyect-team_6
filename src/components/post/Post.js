@@ -1,6 +1,6 @@
 import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers"
 import React from "react"
-import { Accordion, Card, Image, Button } from "react-bootstrap";
+import { Accordion, Card, Image, Table } from "react-bootstrap";
 
 class APost extends React.Component {
 
@@ -22,17 +22,26 @@ class APost extends React.Component {
         let content = this.state.aPostData.excerpt.rendered
         if(this.state.aPostData.id>0){
             return (
-                <Accordion.Item key={this.state.aPostData.id}>
-                    <Accordion.Header as={Card.Header} eventKey={this.state.aPostData.id}>
-                        {this.state.aPostData.title.rendered}
+                <Accordion.Item eventKey={this.state.aPostData.id}>
+                    <Accordion.Header as={Card.Header} >
+                        <Table>
+                            <tr>
+                                <th>
+                                    {this.state.aPostData.title.rendered}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div dangerouslySetInnerHTML={{__html: this.state.aPostData.excerpt.rendered}}></div>
+                                </td>
+                            </tr>
+                        </Table>
                     </Accordion.Header>
-                    <Accordion.Collapse eventKey={this.state.aPostData.id}>
-                        <Accordion.Body>
+                    <Accordion.Body>
                             <Image fluid src={this.state.mediaData} alt={this.state.aPostData.title.rendered} />
                             <h5 style={{marginBottom: "0"}}>{this.state.aPostData.title.rendered}</h5>
-                            <div dangerouslySetInnerHTML={{__html: content}}></div>
-                        </Accordion.Body>
-                    </Accordion.Collapse>
+                            <div dangerouslySetInnerHTML={{__html: this.state.aPostData.content.rendered}}></div>
+                    </Accordion.Body>
                 </Accordion.Item>
             )
         }else{

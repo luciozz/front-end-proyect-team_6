@@ -1,7 +1,7 @@
 import Wapi from 'wpapi'
 import React from 'react'
 import APost from '../components/post/Post';
-import { Accordion, Card, Image } from "react-bootstrap";
+import { Accordion, Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 
 const postStatus = { pub: 'publish', pend: 'pending', borrador: 'draft'}
 const categories = { sinCategoria: 1, 
@@ -13,6 +13,11 @@ const categories = { sinCategoria: 1,
     leer: 48, ler: 127, lire: 129, read: 131,
     menuSecundario: 3
     }
+const languages = { sp: 'Español', en: 'English', fr: 'Français', pt: 'Português'}
+const contact = { sp: 'Contacto', en: 'Contact', fr: 'Contact', pt: 'Contacto'}
+const printedBooks = { sp: 'Libros Impresos', en: 'Printed Books', fr: 'Livres Imprimés', pt: 'Livros Impressos'}
+const otherAuthors = { sp: 'Otros Autores', en: 'Other Authors', fr: 'Autres auteurs', pt: 'Outros Autores'}
+const works = { sp: 'Textos', en: 'Works', fr: 'Textes', pt: 'Textos'}
 
 class Wordpress extends React.Component {
     dataWP = Array()
@@ -28,7 +33,7 @@ class Wordpress extends React.Component {
         try{
             this.wp = new Wapi({ endpoint: this.http+'/wp-json'})
         }catch(e){
-            throw('Wordpress constructor error '+e)
+            throw(e)
         }
     }
 
@@ -37,7 +42,6 @@ class Wordpress extends React.Component {
     }
 
     getPosts = async () => {
-        const lang = (this.state.language=='sp')? '': this.state.language
         await this.wp.posts()
             .param({ status: postStatus.pub, order: 'asc', page: 2})
             .category(categories.textosEs)
@@ -97,11 +101,34 @@ class Wordpress extends React.Component {
         let elements = this.dataWP.map((elem) => {
             return <APost aPostData={elem} fMedia={this.getMedia}> </APost>
         })
-          
         return (
-            <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}}>
+            <>
+            <Navbar bg="dark" variant="dark"  expand="lg" fixed="top">
+                <Container>
+                    <Navbar.Brand href="#home">Nahuel Moreno</Navbar.Brand>
+                    <Nav className="me-auto">
+                    <Nav.Link href="#home">Home</Nav.Link>
+                    <Nav.Link href="#works">{works[this.state.language]}</Nav.Link>
+                    <Nav.Link href="#otherAuthors">{otherAuthors[this.state.language]}</Nav.Link>
+                    <Nav.Link href="#printedBooks">{printedBooks[this.state.language]}</Nav.Link>
+                    <Nav.Link href="#contact">{contact[this.state.language]}</Nav.Link>
+                    <NavDropdown title={languages[this.state.language]} id="basic-nav-dropdown">
+                        <NavDropdown.Item href="#action/3.1">Español</NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">English</NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.3">Français</NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.4">Português</NavDropdown.Item>        
+                    </NavDropdown>
+                    <Navbar.Brand >
+                    </Navbar.Brand>                    
+                    </Nav>
+                </Container>
+            </Navbar>
+            <div class="container">
+            <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}} defaultActiveKey="0">
                 {elements}
             </Accordion>
+            </div>
+            </>
         )
     }
 }
