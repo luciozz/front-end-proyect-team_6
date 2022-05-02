@@ -6,23 +6,30 @@ class APost extends React.Component {
 
     constructor(props){
         super(props)
-        this.state = { aPostData: props.aPostData, fGetMedia: props.fMedia, mediaData: ''}
+        this.state = { aPostData: props.aPostData, fGetMedia: props.fMedia, mediaData: '', theLast: props.theLast, getNewPosts: props.getNewPosts}
     }
 
     componentDidMount(){
-       this.state.fGetMedia(this.state.aPostData.featured_media)
-       .then((data) =>{
-        this.setState({mediaData: data.media_details.sizes.medium.source_url})
-       })
+        console.log(this.state.theLast)
+        if(this.state.theLast){
+            this.state.getNewPosts()
+        }
+    }
+
+    getMediaData(){
+        this.state.fGetMedia(this.state.aPostData.featured_media)
+        .then((data) =>{
+         this.setState({mediaData: data.media_details.sizes.medium.source_url})
+        })
     }
 
     render() {
-        console.log(this.state.aPostData)
-        console.log(this.state.aPostData.id)
+        /*console.log(this.state.aPostData)
+        console.log(this.state.aPostData.id)*/
         let content = this.state.aPostData.excerpt.rendered
         if(this.state.aPostData.id>0){
             return (
-                <Accordion.Item eventKey={this.state.aPostData.id}>
+                <Accordion.Item eventKey={this.state.aPostData.id} onClick={() => this.getMediaData()}>
                     <Accordion.Header as={Card.Header} >
                         <Table>
                             <tr>

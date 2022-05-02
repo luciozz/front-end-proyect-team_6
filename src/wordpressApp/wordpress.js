@@ -28,7 +28,7 @@ class Wordpress extends React.Component {
         this.http = props.wordpressHttp
         console.log(props)
 
-        this.state = {ready: false, language: 'sp', category: 'textos-es'}
+        this.state = {ready: false, language: 'sp', category: 'textos-es', lastPage: 1}
 
         try{
             this.wp = new Wapi({ endpoint: this.http+'/wp-json'})
@@ -37,21 +37,25 @@ class Wordpress extends React.Component {
         }
     }
 
-    componentDidMount(){
-        this.getPosts()
-    }
-
-    getPosts = async () => {
+    getPosts = async (thePage) => {
+        this.setState({ready: false})
         await this.wp.posts()
-            .param({ status: postStatus.pub, order: 'asc', page: 2})
+            .param({ status: postStatus.pub, order: 'asc', page: thePage})
             .category(categories.textosEs)
             .get()
             .then( (data) => {
-                this.dataWP = data
+                if(this.dataWP.length===0){
+                    this.dataWP = data
+                    console.log('largo=0')
+                }else{
+                    this.dataWP = this.dataWP.concat(data) 
+                }
                 this.setState({ready: true})
                 console.log(data)
             }
-        )
+        ).catch(function(err) {
+
+        })
     }
 
     getMedia = async (idMedia) => {
@@ -97,9 +101,26 @@ class Wordpress extends React.Component {
         )
     }
 
+    componentDidMount(){
+        this.getPosts(this.lastPage)
+    }
+
+    getNewPostsAndAdd(){
+        try{
+            this.state.lastPage = ++this.state.lastPage
+            this.getPosts(this.state.lastPage)
+            console.log(this.state.lastPage)
+        }catch(e){
+            console.log('Error en NewPosts')
+            console.log(e)
+        }
+    }
+
     render(){
-        let elements = this.dataWP.map((elem) => {
-            return <APost aPostData={elem} fMedia={this.getMedia}> </APost>
+        let elements = this.dataWP.map((elem, i, list) => {
+            return (
+                <APost aPostData={elem} fMedia={this.getMedia} theLast={((i+1)===list.length)?true:false} getNewPosts={this.getNewPostsAndAdd.bind(this)}> </APost>
+            )
         })
         return (
             <>
