@@ -6,14 +6,14 @@ class APost extends React.Component {
 
     constructor(props){
         super(props)
-        this.state = { aPostData: props.aPostData, fGetMedia: props.fMedia, mediaData: '', theLast: props.theLast, getNewPosts: props.getNewPosts}
+        this.state = { aPostData: props.aPostData, fGetMedia: props.fMedia, mediaData: '', theLast: props.theLast}
     }
 
     componentDidMount(){
-        console.log(this.state.theLast)
+    /*    console.log(this.state.theLast)
         if(this.state.theLast){
             this.state.getNewPosts()
-        }
+        }*/
     }
 
     getMediaData(){

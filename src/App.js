@@ -3,16 +3,15 @@ import './App.css';
 import Profile from './components/profile/profile.js';
 import configuration from './configuration.js';
 import Wordpress from './wordpressApp/wordpress.js';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 import React from 'react';
-import {useState} from 'react';
 
 function App() {
     return (
       <>      
-    <div className="App">
+    <div className="App" >
       <Profile user={
           {
             name: 'Juan',

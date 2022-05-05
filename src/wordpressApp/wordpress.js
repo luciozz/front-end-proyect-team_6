@@ -1,5 +1,6 @@
 import Wapi from 'wpapi'
 import React from 'react'
+import ContainerHook from '../components/containerHook/containerHook';
 import APost from '../components/post/Post';
 import { Accordion, Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 
@@ -46,15 +47,15 @@ class Wordpress extends React.Component {
             .then( (data) => {
                 if(this.dataWP.length===0){
                     this.dataWP = data
-                    console.log('largo=0')
+                   /* console.log('largo=0')*/
                 }else{
                     this.dataWP = this.dataWP.concat(data) 
                 }
                 this.setState({ready: true})
-                console.log(data)
+                /*console.log(data)*/
             }
         ).catch(function(err) {
-
+            console.log('Error en getPosts')
         })
     }
 
@@ -107,8 +108,10 @@ class Wordpress extends React.Component {
 
     getNewPostsAndAdd(){
         try{
-            this.state.lastPage = ++this.state.lastPage
-            this.getPosts(this.state.lastPage)
+            if (this.state.lastPage<3){
+                this.state.lastPage = ++this.state.lastPage
+                this.getPosts(this.state.lastPage)
+            }
             console.log(this.state.lastPage)
         }catch(e){
             console.log('Error en NewPosts')
@@ -119,7 +122,7 @@ class Wordpress extends React.Component {
     render(){
         let elements = this.dataWP.map((elem, i, list) => {
             return (
-                <APost aPostData={elem} fMedia={this.getMedia} theLast={((i+1)===list.length)?true:false} getNewPosts={this.getNewPostsAndAdd.bind(this)}> </APost>
+                <APost aPostData={elem} fMedia={this.getMedia} theLast={((i+1)===list.length)?true:false} > </APost>
             )
         })
         return (
@@ -144,11 +147,11 @@ class Wordpress extends React.Component {
                     </Nav>
                 </Container>
             </Navbar>
-            <div class="container">
+            <ContainerHook class="container" theEndShow={this.getNewPostsAndAdd.bind(this)}>
             <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}} defaultActiveKey="0">
                 {elements}
             </Accordion>
-            </div>
+            </ContainerHook>
             </>
         )
     }
