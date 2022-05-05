@@ -31,7 +31,8 @@ class APost extends React.Component {
             return (
                 <Accordion.Item eventKey={this.state.aPostData.id} onClick={() => this.getMediaData()}>
                     <Accordion.Header as={Card.Header} >
-                        <Table>
+                        <Table >
+                        <tbody>
                             <tr>
                                 <th>
                                     {this.state.aPostData.title.rendered}
@@ -42,6 +43,7 @@ class APost extends React.Component {
                                     <div dangerouslySetInnerHTML={{__html: this.state.aPostData.excerpt.rendered}}></div>
                                 </td>
                             </tr>
+                        </tbody>
                         </Table>
                     </Accordion.Header>
                     <Accordion.Body>

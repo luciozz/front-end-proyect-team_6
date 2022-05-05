@@ -2,6 +2,7 @@ import Wapi from 'wpapi'
 import React from 'react'
 import ContainerHook from '../components/containerHook/containerHook';
 import APost from '../components/post/Post';
+import Food from '../components/food/food.js';
 import { Accordion, Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 
 const postStatus = { pub: 'publish', pend: 'pending', borrador: 'draft'}
@@ -19,15 +20,18 @@ const contact = { sp: 'Contacto', en: 'Contact', fr: 'Contact', pt: 'Contacto'}
 const printedBooks = { sp: 'Libros Impresos', en: 'Printed Books', fr: 'Livres Imprimés', pt: 'Livros Impressos'}
 const otherAuthors = { sp: 'Otros Autores', en: 'Other Authors', fr: 'Autres auteurs', pt: 'Outros Autores'}
 const works = { sp: 'Textos', en: 'Works', fr: 'Textes', pt: 'Textos'}
+const maxRequestCyclic = 100
 
 class Wordpress extends React.Component {
     dataWP = Array()
+    postsElementsToShow = Array()
+    readyToGetPosts = true
 
     constructor(props){
         super(props);
 
         this.http = props.wordpressHttp
-        console.log(props)
+        /*console.log(props)*/
 
         this.state = {ready: false, language: 'sp', category: 'textos-es', lastPage: 1}
 
@@ -38,25 +42,45 @@ class Wordpress extends React.Component {
         }
     }
 
-    getPosts = async (thePage) => {
-        this.setState({ready: false})
-        await this.wp.posts()
-            .param({ status: postStatus.pub, order: 'asc', page: thePage})
-            .category(categories.textosEs)
-            .get()
-            .then( (data) => {
-                if(this.dataWP.length===0){
-                    this.dataWP = data
-                   /* console.log('largo=0')*/
-                }else{
-                    this.dataWP = this.dataWP.concat(data) 
+    getPosts = async (thePage, force = false) => {
+        if(this.readyToGetPosts || force){
+            this.readyToGetPosts = false
+            await this.wp.posts()
+                .param({ status: postStatus.pub, order: 'asc', page: thePage})
+                .category(categories.textosEs)
+                .get()
+                .then( (data) => {
+                    if(this.dataWP.length===0){
+                        this.dataWP = data
+                    /* console.log('largo=0')*/
+                    }else{
+                        this.dataWP = this.dataWP.concat(data) 
+                    }
+                    this.preparePostsToShow()
+                    this.setState({ready: true})
+                    /*console.log('readyToGetPosts', this.readyToGetPosts)*/
                 }
-                this.setState({ready: true})
-                /*console.log(data)*/
+            ).catch(function(err) {
+                console.log('Error en getPosts')
+            })
+        }else{
+            console.log('esperando datos')
+        }
+    }
+
+    getNewPostsAndAdd(){
+        if(this.readyToGetPosts){
+            /*console.log('readyToGetPosts', this.readyToGetPosts, ' - ', this.state.lastPage)*/
+            try{
+                if (this.state.lastPage<maxRequestCyclic){
+                    this.state.lastPage = ++this.state.lastPage
+                    this.getPosts(this.state.lastPage)
+                }                
+            }catch(e){
+                console.log('Error en NewPosts')
+                console.log(e)
             }
-        ).catch(function(err) {
-            console.log('Error en getPosts')
-        })
+        }
     }
 
     getMedia = async (idMedia) => {
@@ -76,8 +100,8 @@ class Wordpress extends React.Component {
     }
 
     getAPost(number){
-        console.log('getApost '+number+' - '+this.state.ready)
-        if(this.state.ready){
+        /*console.log('getApost '+number+' - '+this.state.ready)*/
+        if(this.readyToGetPosts){
             console.log(this.dataWP[number])
             return this.dataWP[number]
         }else return (
@@ -102,29 +126,21 @@ class Wordpress extends React.Component {
         )
     }
 
-    componentDidMount(){
-        this.getPosts(this.lastPage)
+    preparePostsToShow(){
+        this.postsElementsToShow = this.dataWP.map((elem, i, list) => {
+            return (
+                <APost key={elem.id} aPostData={elem} fMedia={this.getMedia} theLast={((i+1)===list.length)?true:false} > </APost>
+            )
+        })
+        this.postsElementsToShow = this.postsElementsToShow.concat(<Food key='Food_2022' onVisible={this.getNewPostsAndAdd.bind(this)} ></Food>)
+        this.readyToGetPosts = true
     }
 
-    getNewPostsAndAdd(){
-        try{
-            if (this.state.lastPage<3){
-                this.state.lastPage = ++this.state.lastPage
-                this.getPosts(this.state.lastPage)
-            }
-            console.log(this.state.lastPage)
-        }catch(e){
-            console.log('Error en NewPosts')
-            console.log(e)
-        }
+    componentDidMount(){
+        this.getPosts(this.lastPage) 
     }
 
     render(){
-        let elements = this.dataWP.map((elem, i, list) => {
-            return (
-                <APost aPostData={elem} fMedia={this.getMedia} theLast={((i+1)===list.length)?true:false} > </APost>
-            )
-        })
         return (
             <>
             <Navbar bg="dark" variant="dark"  expand="lg" fixed="top">
@@ -147,11 +163,9 @@ class Wordpress extends React.Component {
                     </Nav>
                 </Container>
             </Navbar>
-            <ContainerHook class="container" theEndShow={this.getNewPostsAndAdd.bind(this)}>
             <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}} defaultActiveKey="0">
-                {elements}
+                {this.postsElementsToShow}
             </Accordion>
-            </ContainerHook>
             </>
         )
     }
