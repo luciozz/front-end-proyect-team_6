@@ -1,0 +1,56 @@
+import React from 'react'
+import { Button, Modal } from "react-bootstrap";
+
+function MyVerticallyCenteredModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Centered Modal</h4>
+          <p>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+  
+  function ModalWindow(props) {
+    const [modalShow, setModalShow] = React.useState(false);
+  
+    let ComponentToDisplay = new Button({onClick: setModalShow(true), children: 'Hola Mundo'})
+    /*let ComponentToDisplay = new React.Component() => { return (<><Button variant="primary" onClick={() => setModalShow(true)}>
+        Launch vertically centered modal
+        </Button></>)}*/
+
+    /*if(props.children){
+        ComponentToDisplay = props.children
+    }*/
+
+    return (
+      <>
+        {ComponentToDisplay}
+  
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+      </>
+    );
+  }
+  
+  export default ModalWindow

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useOnScreen = (ref, rootMargin = "0px", isObserveFunction = null) => {
+const useOnScreen = (ref: any, rootMargin = "0px", isObserveFunction: Function) => {
 	const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
