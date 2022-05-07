@@ -1,8 +1,9 @@
 import React from 'react'
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
+import ImageLazy from '../imageLazy/imageLazy';
 
-function MyVerticallyCenteredModal(props) {
-    return (
+function MyVerticallyCenteredModal(props) {  
+  return (
       <Modal
         {...props}
         size="lg"
@@ -11,16 +12,13 @@ function MyVerticallyCenteredModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+            {props.title? props.title : 'Modal heading'}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Centered Modal</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </p>
+          {props.img? (<ImageLazy className="img-fluid" src={props.img} alt="..." />) : null}
+          {props.text? (<p>props.text</p>):null}
+          {props.html? (<div>props.html</div>):null}
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
@@ -31,34 +29,28 @@ function MyVerticallyCenteredModal(props) {
   
   function ModalWindow(props) {
     const [modalShow, setModalShow] = React.useState(false);
-  
     
-  
-    if(props.children){
       return (
         <>
-        <div onClick={() => setModalShow(true)}>
-          {props.children}
-        </div>
+        {(props.children)?
+          <div onClick={() =>{ 
+            setModalShow(true)
+          } }>
+            {props.children}
+          </div>
+        :
+          <Button variant="primary" onClick={() => setModalShow(true)}>
+          Launch vertically centered modal
+          </Button>
+        }
         <MyVerticallyCenteredModal
             show={modalShow}
             onHide={() => setModalShow(false)}
+            title = {props.title}
+            img = {props.img}
           />
         </>
       )
-    }else{
-      return (
-        <>
-        <Button variant="primary" onClick={() => setModalShow(true)}>
-        Launch vertically centered modal
-        </Button>
-        <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-            />
-        </>
-        )
-    }
   }
   
   export default ModalWindow

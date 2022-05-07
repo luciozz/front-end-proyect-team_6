@@ -84,7 +84,7 @@ class Wordpress extends React.Component {
 
     getMedia = async (idMedia) => {
         let mediaJson
-        console.log('Media: '+idMedia)
+        
         if(idMedia>0){
             await this.wp.media()
                 .id(idMedia)
@@ -93,7 +93,7 @@ class Wordpress extends React.Component {
                     mediaJson = data
                 }
             )
-            console.log(mediaJson)
+           
             return mediaJson
         }else return null
     }

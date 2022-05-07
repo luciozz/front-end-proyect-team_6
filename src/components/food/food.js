@@ -7,13 +7,12 @@ const Food = (props) => {
         if (props.onVisible) {
             props.onVisible()
         }
-        /*alert('visible')*/
     })
     return (
         <>
         <div ref={ref} >
         <hr></hr>
-        Final de la página
+        nahuelmoreno.org (2022)
         </div>
         </>
     )

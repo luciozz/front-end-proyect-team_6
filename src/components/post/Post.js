@@ -1,6 +1,7 @@
 import React from "react"
 import { Accordion, Button, Card, Image, Table, ButtonGroup } from "react-bootstrap";
 import ModalWindow from '../modalWindow/modalWindow';
+import ImageLazy from "../imageLazy/imageLazy";
 import parse from 'html-react-parser';
 
 class APost extends React.Component {
@@ -8,7 +9,7 @@ class APost extends React.Component {
 
     constructor(props){
         super(props)
-        this.state = { aPostData: props.aPostData, fGetMedia: props.fMedia, mediaData: '', theLast: props.theLast}
+        this.state = { aPostData: props.aPostData, fGetMedia: props.fMedia, mediaData: '', longImage: '', theLast: props.theLast}
         
     }
 
@@ -22,7 +23,7 @@ class APost extends React.Component {
     getMediaData(){
         this.state.fGetMedia(this.state.aPostData.featured_media)
         .then((data) =>{
-         this.setState({mediaData: data.media_details.sizes.medium.source_url})
+         this.setState({mediaData: data.media_details.sizes.medium.source_url, longImage: data.media_details.sizes.full.source_url})
         })
     }
 
@@ -32,7 +33,6 @@ class APost extends React.Component {
                 if (domNode.attribs && domNode.attribs.class === 'wp-block-button') {
                     let child = domNode.childNodes[0]
                     let text = child.childNodes[0]
-                    console.log(child)
                     return(
                         <Button variant="dark" href={child.attribs.href}>{text.data}</Button>
                     )
@@ -81,8 +81,8 @@ class APost extends React.Component {
                         </Table>
                     </Accordion.Header>
                     <Accordion.Body>
-                            <ModalWindow Img={this.state.mediaData} Title={this.state.aPostData.title.rendered} >
-                                <Image fluid src={this.state.mediaData} alt={this.state.aPostData.title.rendered} />
+                            <ModalWindow img={this.state.longImage} title={this.state.aPostData.title.rendered} >
+                                <ImageLazy fluid src={this.state.mediaData} alt={this.state.aPostData.title.rendered} />
                             </ModalWindow>
                             <h5 style={{marginBottom: "0"}}>{this.state.aPostData.title.rendered}</h5>
                             <div>{this.innerHtmlPost}</div>
