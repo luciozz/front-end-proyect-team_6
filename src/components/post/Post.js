@@ -1,6 +1,6 @@
-import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers"
 import React from "react"
 import { Accordion, Button, Card, Image, Table, ButtonGroup } from "react-bootstrap";
+import ModalWindow from '../modalWindow/modalWindow';
 import parse from 'html-react-parser';
 
 class APost extends React.Component {
@@ -81,9 +81,11 @@ class APost extends React.Component {
                         </Table>
                     </Accordion.Header>
                     <Accordion.Body>
-                            <Image fluid src={this.state.mediaData} alt={this.state.aPostData.title.rendered} />
+                            <ModalWindow Img={this.state.mediaData} Title={this.state.aPostData.title.rendered} >
+                                <Image fluid src={this.state.mediaData} alt={this.state.aPostData.title.rendered} />
+                            </ModalWindow>
                             <h5 style={{marginBottom: "0"}}>{this.state.aPostData.title.rendered}</h5>
-                            <div>{this.innerHtmlPost}></div>
+                            <div>{this.innerHtmlPost}</div>
                     </Accordion.Body>
                 </Accordion.Item>
             )

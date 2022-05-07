@@ -32,25 +32,33 @@ function MyVerticallyCenteredModal(props) {
   function ModalWindow(props) {
     const [modalShow, setModalShow] = React.useState(false);
   
-    let ComponentToDisplay = new Button({onClick: setModalShow(true), children: 'Hola Mundo'})
-    /*let ComponentToDisplay = new React.Component() => { return (<><Button variant="primary" onClick={() => setModalShow(true)}>
-        Launch vertically centered modal
-        </Button></>)}*/
-
-    /*if(props.children){
-        ComponentToDisplay = props.children
-    }*/
-
-    return (
-      <>
-        {ComponentToDisplay}
+    
   
+    if(props.children){
+      return (
+        <>
+        <div onClick={() => setModalShow(true)}>
+          {props.children}
+        </div>
         <MyVerticallyCenteredModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-        />
-      </>
-    );
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
+        </>
+      )
+    }else{
+      return (
+        <>
+        <Button variant="primary" onClick={() => setModalShow(true)}>
+        Launch vertically centered modal
+        </Button>
+        <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+            />
+        </>
+        )
+    }
   }
   
   export default ModalWindow

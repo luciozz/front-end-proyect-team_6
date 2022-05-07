@@ -1,14 +1,8 @@
 import Wapi from 'wpapi'
 import React from 'react'
-																							 
 import APost from '../components/post/Post';
 import Food from '../components/food/food.js';
-<<<<<<< HEAD
 import { Accordion, Navbar, Nav, NavDropdown, Container, Button } from "react-bootstrap";
-import ModalWindow from '../components/modalWindow/modalWindow';
-=======
-import { Accordion, Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
->>>>>>> 7eea56b13a28c8ff67b4b91be621fc99a9a00165
 
 const postStatus = { pub: 'publish', pend: 'pending', borrador: 'draft'}
 const categories = { sinCategoria: 1, 
@@ -86,11 +80,6 @@ class Wordpress extends React.Component {
                 console.log(e)
             }
         }
-<<<<<<< HEAD
-											
-		  
-=======
->>>>>>> 7eea56b13a28c8ff67b4b91be621fc99a9a00165
     }
 
     getMedia = async (idMedia) => {
@@ -147,36 +136,12 @@ class Wordpress extends React.Component {
     }
 
     componentDidMount(){
-<<<<<<< HEAD
-			
-									   
-														   
-												  
-			 
-        this.getPosts(this.lastPage) 
-				  
-											
-						  
-		 
-    }
-
-    render(){
-														   
-					
-																																								  
-			 
-		  
-=======
         this.getPosts(this.lastPage) 
     }
 
     render(){
->>>>>>> 7eea56b13a28c8ff67b4b91be621fc99a9a00165
         return (
             <>
-            <ModalWindow>
-                <Button>Hola</Button>
-            </ModalWindow>
             <Navbar bg="dark" variant="dark"  expand="lg" toggle="collapse" sticky="top" >
                 <Container>
                     <Navbar.Brand href="#home">Nahuel Moreno</Navbar.Brand>
@@ -200,17 +165,9 @@ class Wordpress extends React.Component {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-<<<<<<< HEAD
-																																			   
             <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}} defaultActiveKey="0">
                 {this.postsElementsToShow}
             </Accordion>
-							
-=======
-            <Accordion style={{width: "90%", margin: "0px auto 40px", cursor: "pointer"}} defaultActiveKey="0">
-                {this.postsElementsToShow}
-            </Accordion>
->>>>>>> 7eea56b13a28c8ff67b4b91be621fc99a9a00165
             </>
         )
     }
