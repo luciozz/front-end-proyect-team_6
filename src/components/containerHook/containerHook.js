@@ -4,15 +4,20 @@ import Food from '../food/food.js';
 
 const Container = (props) => {
     const ref = useRef(null);
-    const isVisible = useOnScreen(ref, '0px', props.theEndShow);
-    console.log("isVisible", isVisible);
+    /*const isVisible = useOnScreen(ref, '0px', () => { 
+        let mark = new Date()
+        console.log("isVisible", mark.getTime());
+        props.theEndShow() 
+    });
+    
+    isVisible={isVisible}*/
 
     return (
         <>
-            <div ref={ref}>
+            <div >
                 {props.children}
             </div>
-            <Food isVisible={isVisible}></Food>
+            <Food theRef={ref} ></Food>
         </>
     )
 }
