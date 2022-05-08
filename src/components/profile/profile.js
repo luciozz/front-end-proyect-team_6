@@ -18,30 +18,27 @@ export default class Profile extends React.Component {
     }
     
     componentDidMount() {
-        this.setState({
+        /*this.setState({
         user: this.props.user,
-        });
+        });*/
+        // Que pasaria si el fetch no funciona? o tarda mucho?
+        fetch('https://jsonplaceholder.typicode.com/users/5')
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                this.setState({
+                    user: {
+                        name: json.name,
+                        username: json.username,
+                        email: json.email, 
+                        photo: "https://picsum.photos/200/300" //this.props.user.photo // No uso photo del JSON
+                    }
+                })
+            })
     }
     
     render() {
         return (
-            <div className="profile">
-                <div className="profile-header">
-                <div className="profile-header-info">
-                    <div className="profile-header-info-name">
-                    {this.state.user.name}
-                    </div>
-                    <div className="profile-header-info-username">
-                    @{this.state.user.username}
-                    </div>
-                </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-/*
             <div className="profile">
                 <div className="profile-header">
                 <div className="profile-header-photo">
@@ -64,4 +61,6 @@ export default class Profile extends React.Component {
                 </div>
                 </div>
             </div>
-*/
+        );
+    }
+}
