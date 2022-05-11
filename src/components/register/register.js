@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { useFormInput, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass } from '../utils/forms';
+import { useState, useRef } from "react";
+import { useFormInput, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual } from '../utils/forms';
 import { URL_Register } from '../../constant';
 import './register.css';
 
 function Register(props){
     const [validateArray, setValidateArray] = useState({}) 
     let valueArray = {}
+    const origPass = useRef(null)
 
     const setValidates = (event) =>{
         const name = event.target.name
@@ -42,13 +43,13 @@ function Register(props){
             </div>
             <div className="grid grid-cols-2 gap-4 w-1/2">
                 <div className='form-group'>
-                    <FormInput isRequired="true" initialValue="**" title="Password" name="passwd" type="password" 
+                    <FormInput isRequired="true" innerRef={origPass} initialValue="**" title="Password" name="passwd" type="password" 
                     validateFunction={validateInputPass()}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
                 <div className='form-group'>
                     <FormInput isRequired="true" initialValue="**" title="Re-enter your password" name="repasswd" type="password" 
-                    validateFunction={validateInputPass()}
+                    validateFunction={validateEqual(origPass)}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
             </div>

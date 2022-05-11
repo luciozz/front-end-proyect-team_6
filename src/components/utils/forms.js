@@ -1,5 +1,5 @@
 /*import { render } from "@testing-library/react";*/
-import React, { useState }  from "react";
+import React, { useState, useRef }  from "react";
 import './forms.css'
 
 const useFormInput = (initialValue) => {
@@ -15,8 +15,12 @@ const useFormInput = (initialValue) => {
 };
 
 
-/*  Your password must contain at least one capital letter, one
-    *number and one lowercase letter, and it must contain at least 8
+/*  Your password must contain at least 
+    - one capital letter, 
+    - one number 
+    - one lowercase letter
+    - one special character
+     and it must contain at least 8
     *characters*/
 const validateInputPass = (event) => {
     const funcionParametrizada = (event) => {
@@ -29,6 +33,18 @@ const validateInputPass = (event) => {
     return funcionParametrizada
 };
 
+/*  Compare for equals to reference */
+const validateEqual = (ref) => {
+    console.log(ref)
+    const funcionParametrizada = (event) => {
+        let text = event.target.value;            
+        let origText = ref.current.value
+        console.log(origText, test)
+        return (origText === test);
+    }
+
+    return funcionParametrizada
+}
 
 /*  Your input must contain at least NUMER characters
     (letters and Numbers).
@@ -178,4 +194,4 @@ const ButtonSubmit = (props) => {
       )
 }
 
-export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput };
+export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual };
