@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFormInput, CheckFormInput, validateInputMin, ButtonSubmit, CheckFormDropDown } from '../utils/forms';
+import { useFormInput, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass } from '../utils/forms';
 import { URL_Register } from '../../constant';
 import './register.css';
 
@@ -26,31 +26,35 @@ function Register(props){
                 Register
             </div>
             <div className='w-1/2 ...'>
-                <CheckFormInput initialValue=".." title="Name" name="name" type="text" 
+                <FormInput isRequired="true" initialValue=".." title="Name" name="name" type="text" 
                 validateFunction={validateInputMin(2)}
-                setValidate={setValidates} setValue={setValues}></CheckFormInput>
+                setValidate={setValidates} setValue={setValues}></FormInput>
             </div>
             <div className='w-1/2 ...'>
-                <CheckFormInput initialValue=".." title="Last Name" name="lastname" type="text" 
+                <FormInput isRequired="true" initialValue=".." title="Last Name" name="lastname" type="text" 
                 validateFunction={validateInputMin(2)}
-                setValidate={setValidates} setValue={setValues}></CheckFormInput>
+                setValidate={setValidates} setValue={setValues}></FormInput>
             </div>
             <div className='w-1/2 ...'>
-                <CheckFormInput initialValue="you@example.com" title="Email" name="email" type="email" 
-                validateFunction={validateInputMin(4)}
-                setValidate={setValidates} setValue={setValues}></CheckFormInput>
+                <FormInput isRequired="true" initialValue="you@example.com" title="Email" name="email" type="email" 
+                validateFunction={validateEmailInput()}
+                setValidate={setValidates} setValue={setValues}></FormInput>
             </div>
             <div className="grid grid-cols-2 gap-4 w-1/2">
-                <div className='form-group mb-6'>
-                    <CheckFormInput initialValue="**" title="Password" name="passwd" type="password" 
-                    validateFunction={validateInputMin(6)}
-                    setValidate={setValidates} setValue={setValues}></CheckFormInput>
+                <div className='form-group'>
+                    <FormInput isRequired="true" initialValue="**" title="Password" name="passwd" type="password" 
+                    validateFunction={validateInputPass()}
+                    setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
-                <div className='form-group mb-6'>
-                    <CheckFormInput initialValue="**" title="Re-enter your password" name="repasswd" type="password" 
-                    validateFunction={validateInputMin(6)}
-                    setValidate={setValidates} setValue={setValues}></CheckFormInput>
+                <div className='form-group'>
+                    <FormInput isRequired="true" initialValue="**" title="Re-enter your password" name="repasswd" type="password" 
+                    validateFunction={validateInputPass()}
+                    setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
+            </div>
+            <div className='w-1/2 ...'>
+                <FormInput initialValue="Text" title="Text" name="text" type="text" 
+                setValue={setValues}></FormInput>
             </div>
             <div >
                 <CheckFormDropDown initialValue=".." title="Last Name" name="lastname" type="text" 
