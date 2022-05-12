@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Vamos a hacer un Netflix
 
 Utilizaremos Tailwond para CSS
@@ -17,3 +18,8 @@ modificar .src/index.css
     @tailwind base;
     @tailwind components;
     @tailwind utilities;
+=======
+# Info de Proyecto
+
+## Nuestro proyecto es...
+>>>>>>> 5ac7dc4ecdde3f1ea9388febff542476f34feb7b
