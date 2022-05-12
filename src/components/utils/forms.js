@@ -1,6 +1,8 @@
 /*import { render } from "@testing-library/react";*/
 import React, { useState, useRef }  from "react";
+import {classCss} from '../../constant.js'
 import './forms.css'
+
 
 const useFormInput = (initialValue) => {
     const [value, setValue] = useState(initialValue);
@@ -34,13 +36,19 @@ const validateInputPass = (event) => {
 };
 
 /*  Compare for equals to reference */
-const validateEqual = (ref) => {
-    console.log(ref)
+const validateEqual = (idHTML) => {
+
     const funcionParametrizada = (event) => {
-        let text = event.target.value;            
-        let origText = ref.current.value
-        console.log(origText, test)
-        return (origText === test);
+        let text = event.target.value
+        let origText = ""
+        if(document.getElementById(idHTML)){
+            origText = document.getElementById(idHTML).value
+        }else{
+            console.log('ValidateEqual - Id Orginal input - Error')
+            return false
+        } 
+
+        return (origText === text);
     }
 
     return funcionParametrizada
@@ -83,11 +91,17 @@ const validateEmailInput = () => {
  - name
  - title
  - initialValue
-*/
+ - isValidateDefault
+ - setValidate = function
+ - setValue = function
+ */
 const FormInput = (props) => {
-    const [myValidate, setMyValidate] = useState(false)
+    let isValidateDefault = false
+    if (props.isValidateDefault) isValidateDefault = true
+    const [myValidate, setMyValidate] = useState(isValidateDefault)
     let classnameRequired
-    let classCss = ""
+    let myClassCss = ""
+    let id = props.Id
 
     const lastCheck = (e) => {
         if(props.isRequired){
@@ -104,15 +118,15 @@ const FormInput = (props) => {
         props.setValidate({target :{name: props.name, attributes: {validate: myValidate}}})
 
         if(myValidate) {
-            classCss = 'mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 w-full rounded-md sm:text-sm focus:ring-1 border-green-500'
+            myClassCss = classCss.classCssGreen
         }else{
-            classCss = 'mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 w-full rounded-md sm:text-sm focus:ring-1 border-red-500'
+            myClassCss = classCss.classCssRed
         } 
 
-        classnameRequired = "after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700"
+        classnameRequired = classCss.classCssNameRequired
     }else{
-        classnameRequired = "after:content after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700"
-        classCss = 'mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 w-full rounded-md sm:text-sm focus:ring-1 border-sky-500'    
+        classnameRequired = classCss.classCssNameNotRequired
+        myClassCss = classCss.classCssBlue
     }
 
     return(
@@ -122,39 +136,65 @@ const FormInput = (props) => {
                 {props.title}
             </span>
             </div>
-          <input onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={classCss} placeholder={props.initialValue} />
+          <input {... id? (id={id}) :''} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue} />
         </div>
     )
 }
 
-/* DropDown form with a Check o Require symbol to user orientation */
+/* DropDown form with a Check o Require symbol to user orientation 
+    - optionsSelect = Array {name: , value: } of element to select
+    - Id
+    - initialValue
+    - isRequired
+    - title
+    - setValidate = function
+    - setValue = function
+*/
 const CheckFormDropDown = (props) => {
-    const [myValidate, setMyValidate] = useState(false)
-
+    let isValidateDefault = false
+    if(props.initialValue) isValidateDefault = true
+    const [myValidate, setMyValidate] = useState(isValidateDefault);
+    let id = props.Id
+    let value = props.initialValue
     const selectDropDown = (e) => {
-        if(e.target.selectedIndex===0){
-            setMyValidate(false)            
+        if(props.isRequired){
+            if(e.target.selectedIndex===0){
+                setMyValidate(false)            
+            }else{
+                setMyValidate(true)
+                props.setValue(e)
+            }
         }else{
-            setMyValidate(true)
+            props.setValue(e)
         }
     }
 
-    let classCss = ""
-    if(myValidate) {
-        classCss = 'dropdown-toggle px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap'
+    let myClassCss = ""
+    if(props.isRequired){
+        props.setValidate({target :{name: props.name, attributes: {validate: myValidate}}})
+        if(myValidate) {
+            myClassCss = classCss.classCssGreenDropDown
+        }else{
+            myClassCss = classCss.classCssRedDropDown
+        }
     }else{
-        classCss = 'dropdown-toggle px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap'
+        myClassCss = classCss.classCssBlueDropDown
     }
     
     return(
         <>
         <div className="flex justify-center">
-        <select className={classCss} onChange={selectDropDown} name="cars" id="cars">
-          <option value="#####">Choose a car:</option>
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
+        <select className={myClassCss} onChange={selectDropDown} name={props.name} 
+          {... id? (id={id}) :''} 
+          defaultValue={props.initialValue}
+          validate={myValidate.toString()}>
+          <option value="#####">{props.title}</option>
+          {props.optionsSelect.map((element) => {
+              if(element.value === props.initialValue){
+                return (<option key={element.value} value={element.value}>{element.name}</option>)
+            } else
+                return (<option key={element.value} value={element.value}>{element.name}</option>)
+        })}
         </select> 
         </div>
         </>
@@ -174,24 +214,35 @@ const ButtonSubmit = (props) => {
     }
 
     return (
-        <button type="submit" className="
-        px-6
-        py-2.5
-        bg-blue-600
-        text-white
-        font-medium
-        text-xs
-        leading-tight
-        uppercase
-        rounded
-        shadow-md
-        hover:bg-blue-700 hover:shadow-lg
-        focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-        active:bg-blue-800 active:shadow-lg
-        transition
-        duration-150
-        ease-in-out" onClick={myPersonalFunctionActionSubmit}>Submit</button>
+        <button type="submit" className={classCss.classCssButtonBlue} onClick={myPersonalFunctionActionSubmit}>Submit</button>
       )
 }
 
-export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual };
+/* Title for a Page */
+const TextTitle = (props) => {
+    let myClassCss = ""
+
+    if(props.H){
+        switch(props.H){
+            case 'H1':
+                myClassCss = classCss.classCssTitleH1
+            case 'H2': 
+                myClassCss = classCss.classCssTitleH2
+            case 'H3': 
+                myClassCss = classCss.classCssTitleH3
+            case 'H4': 
+                myClassCss = classCss.classCssTitleH4
+        }
+    }
+
+    const myPersonalFunctionActionSubmit = (e) => {
+
+    }
+
+
+    return (
+        <p className={myClassCss} onClick={myPersonalFunctionActionSubmit}>{props.children}</p>
+      )
+}
+
+export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle};

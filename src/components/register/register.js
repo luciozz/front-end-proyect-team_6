@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
-import { useFormInput, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual } from '../utils/forms';
+import { useFormInput, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle } from '../utils/forms';
 import { URL_Register } from '../../constant';
 import './register.css';
 
 function Register(props){
     const [validateArray, setValidateArray] = useState({}) 
     let valueArray = {}
-    const origPass = useRef(null)
+    const origPass = useRef()
 
     const setValidates = (event) =>{
         const name = event.target.name
@@ -19,12 +19,13 @@ function Register(props){
         const name = event.target.name
         valueArray[name] = event.target.value
     }
-
+    
+    
     return (
         <>
         <div className="h-screen flex flex-col items-center ">
             <div>
-                Register
+                <TextTitle H="H4">Register</TextTitle>
             </div>
             <div className='w-1/2 ...'>
                 <FormInput isRequired="true" initialValue=".." title="Name" name="name" type="text" 
@@ -43,13 +44,13 @@ function Register(props){
             </div>
             <div className="grid grid-cols-2 gap-4 w-1/2">
                 <div className='form-group'>
-                    <FormInput isRequired="true" innerRef={origPass} initialValue="**" title="Password" name="passwd" type="password" 
+                    <FormInput Id="passOrig" isRequired="true" innerRef={origPass} initialValue="**" title="Password" name="passwd" type="password" 
                     validateFunction={validateInputPass()}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
                 <div className='form-group'>
                     <FormInput isRequired="true" initialValue="**" title="Re-enter your password" name="repasswd" type="password" 
-                    validateFunction={validateEqual(origPass)}
+                    validateFunction={validateEqual("passOrig")}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
             </div>
@@ -58,8 +59,8 @@ function Register(props){
                 setValue={setValues}></FormInput>
             </div>
             <div >
-                <CheckFormDropDown initialValue=".." title="Last Name" name="lastname" type="text" 
-                validateFunction={validateInputMin(2)}
+                <CheckFormDropDown isRequired="true" initialValue="Argentina" title="[Country]" name="country"
+                optionsSelect={([{name: 'Argentina', value: 'Argentina'}, {name: 'Uruguay', value: 'Uruguay'}])}
                 setValidate={setValidates} setValue={setValues}></CheckFormDropDown>
             </div>
             <div >
@@ -73,10 +74,14 @@ function Register(props){
     )
 
     function submit(){
+        // Check validate status of elements
         console.log(validateArray)
         for (const element in validateArray) {
             console.log(validateArray[element]);
         }
+
+        // Get values of elements
+        console.log(valueArray)
         
     }
     
