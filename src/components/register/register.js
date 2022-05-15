@@ -1,17 +1,22 @@
-import { useState, useRef } from "react";
-import { useFormInput, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle } from '../utils/forms';
-import { URL_Register } from '../../constant';
+import { useRef } from "react";
+import { validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle, ModalWindow } from '../utils/forms';
+import { registerHandleSubmit } from "./registerConnector.js";
+import { languages } from "../../language";
 import './register.css';
 
-function Register(props){
-    const [validateArray, setValidateArray] = useState({}) 
-    let valueArray = {}
-    const origPass = useRef()
+let myLanguaje = 'en'
 
-    const setValidates = (event) =>{
-        const name = event.target.name
-        const validate = event.target.attributes['validate']
-        //console.log(event.target.name, event.target.value, event.target.attributes['validate'])
+function Register(props){
+    //const [validateArray, setValidateArray] = useState({}) 
+    let nameOfElementsArray = {}
+    let validateArray = {}
+    let valueArray = {}
+
+    const addElementToArrayName = (name, title) =>{
+        nameOfElementsArray[name] = title
+    }
+
+    const setValidates = (name, validate) =>{
         validateArray[name]= (validate===true)? true: false
     }
 
@@ -20,54 +25,65 @@ function Register(props){
         valueArray[name] = event.target.value
     }
     
-    
+    const refModalWindow = useRef(null);
+    const onClickErrroModal = () => {}
+
     return (
         <>
+        <ModalWindow ref={refModalWindow} setValidate={onClickErrroModal}>
+        </ModalWindow>
         <div className="h-screen flex flex-col items-center ">
             <div>
-                <TextTitle H="H4">Register</TextTitle>
+                <TextTitle H="H4">{languages[myLanguaje].REGISTER.HEADING_REGISTER}</TextTitle>
             </div>
             <div className='w-1/2 ...'>
-                <FormInput isRequired="true" initialValue=".." title="Name" name="name" type="text" 
+                <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_NAME} name="name" type="text" 
+                addElementToArrayName={addElementToArrayName}
                 validateFunction={validateInputMin(2)}
                 setValidate={setValidates} setValue={setValues}></FormInput>
             </div>
             <div className='w-1/2 ...'>
-                <FormInput isRequired="true" initialValue=".." title="Last Name" name="lastname" type="text" 
+                <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_LASTNAME} name="lastname" type="text" 
+                addElementToArrayName={addElementToArrayName}
                 validateFunction={validateInputMin(2)}
                 setValidate={setValidates} setValue={setValues}></FormInput>
             </div>
             <div className='w-1/2 ...'>
-                <FormInput isRequired="true" initialValue="you@example.com" title="Email" name="email" type="email" 
+                <FormInput isRequired="true" initialValue="you@example.com" title={languages[myLanguaje].REGISTER.INPUT_EMAIL} name="email" type="email" 
+                addElementToArrayName={addElementToArrayName}
                 validateFunction={validateEmailInput()}
                 setValidate={setValidates} setValue={setValues}></FormInput>
             </div>
             <div className="grid grid-cols-2 gap-4 w-1/2">
                 <div className='form-group'>
-                    <FormInput Id="passOrig" isRequired="true" innerRef={origPass} initialValue="**" title="Password" name="passwd" type="password" 
+                    <FormInput Id="passOrig" isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_PASS} name="passwd" type="password" 
+                    addElementToArrayName={addElementToArrayName}
                     validateFunction={validateInputPass()}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
                 <div className='form-group'>
-                    <FormInput isRequired="true" initialValue="**" title="Re-enter your password" name="repasswd" type="password" 
+                    <FormInput isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_REPASS} name="repasswd" type="password" 
+                    addElementToArrayName={addElementToArrayName}
                     validateFunction={validateEqual("passOrig")}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
             </div>
             <div className='w-1/2 ...'>
-                <FormInput initialValue="Text" title="Text" name="text" type="text" 
+                <FormInput initialValue="Text" title={languages[myLanguaje].REGISTER.INPUT_OTHER} name="text" type="text" 
+                addElementToArrayName={addElementToArrayName}
                 setValue={setValues}></FormInput>
             </div>
             <div >
-                <CheckFormDropDown isRequired="true" initialValue="Argentina" title="[Country]" name="country"
+                <CheckFormDropDown isRequired="true" initialValue="Argentina" title={languages[myLanguaje].REGISTER.INPUT_COUNTRY} name="country"
                 optionsSelect={([{name: 'Argentina', value: 'Argentina'}, {name: 'Uruguay', value: 'Uruguay'}])}
+                addElementToArrayName={addElementToArrayName}
                 setValidate={setValidates} setValue={setValues}></CheckFormDropDown>
             </div>
             <div >
-                * Required fields
+                {languages[myLanguaje].REGISTER.TEXT_REQUIRED_FIELDS}
             </div>
             <div>
-                <ButtonSubmit functionActionSubmit={submit} ></ButtonSubmit>
+                <ButtonSubmit functionActionSubmit={submit} title={languages[myLanguaje].REGISTER.TEXT_SUBMIT}></ButtonSubmit>
             </div>
         </div>
         </>
@@ -75,14 +91,34 @@ function Register(props){
 
     function submit(){
         // Check validate status of elements
-        console.log(validateArray)
+        let errorValidate = ""
         for (const element in validateArray) {
-            console.log(validateArray[element]);
+            if(!validateArray[element]){
+                errorValidate = errorValidate + nameOfElementsArray[element] + "<br/>"
+            }
+        }
+        if(errorValidate.length>1){
+            errorValidate = languages[myLanguaje].REGISTER.ERROR_ITEMS + "<br/>" + errorValidate
+            refModalWindow.current.showModalWindow('Error', {__html: errorValidate}, true, 'red')
+            return
         }
 
         // Get values of elements
-        console.log(valueArray)
-        
+        try{
+            console.log(valueArray)
+            registerHandleSubmit(valueArray, errorSubmit, okSubmit)
+        }catch(e){
+            refModalWindow.current.showModalWindow('Error', {__html: e}, true, 'red')
+        }
+    }
+
+    function errorSubmit(e){
+        //console.log('error submit', e)
+        refModalWindow.current.showModalWindow('Error', {__html: languages[myLanguaje].REGISTER.ERROR_SUBMIT}, true, 'red')
+    }
+
+    function okSubmit(e){
+        refModalWindow.current.showModalWindow('Registro finalizado', {__html: languages[myLanguaje].REGISTER.OK_SUBMIT}, true)
     }
     
 }
