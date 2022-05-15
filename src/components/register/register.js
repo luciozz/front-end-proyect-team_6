@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle, ModalWindow } from '../utils/forms';
 import { registerHandleSubmit } from "./registerConnector.js";
 import { languages } from "../../language";
+import { constCountries } from "../../constant.js"
 import './register.css';
 
 let myLanguaje = 'en'
@@ -30,60 +31,63 @@ function Register(props){
 
     return (
         <>
-        <ModalWindow ref={refModalWindow} setValidate={onClickErrroModal}>
-        </ModalWindow>
-        <div className="h-screen flex flex-col items-center ">
-            <div>
-                <TextTitle H="H4">{languages[myLanguaje].REGISTER.HEADING_REGISTER}</TextTitle>
-            </div>
-            <div className='w-1/2 ...'>
-                <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_NAME} name="name" type="text" 
-                addElementToArrayName={addElementToArrayName}
-                validateFunction={validateInputMin(2)}
-                setValidate={setValidates} setValue={setValues}></FormInput>
-            </div>
-            <div className='w-1/2 ...'>
-                <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_LASTNAME} name="lastname" type="text" 
-                addElementToArrayName={addElementToArrayName}
-                validateFunction={validateInputMin(2)}
-                setValidate={setValidates} setValue={setValues}></FormInput>
-            </div>
-            <div className='w-1/2 ...'>
-                <FormInput isRequired="true" initialValue="you@example.com" title={languages[myLanguaje].REGISTER.INPUT_EMAIL} name="email" type="email" 
-                addElementToArrayName={addElementToArrayName}
-                validateFunction={validateEmailInput()}
-                setValidate={setValidates} setValue={setValues}></FormInput>
-            </div>
-            <div className="grid grid-cols-2 gap-4 w-1/2">
-                <div className='form-group'>
-                    <FormInput Id="passOrig" isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_PASS} name="passwd" type="password" 
+        <div className="dark">
+            <ModalWindow ref={refModalWindow} setValidate={onClickErrroModal}>
+            </ModalWindow>
+            <div className="h-screen flex flex-col items-center ">
+                <div>
+                    <TextTitle H="H4">{languages[myLanguaje].REGISTER.HEADING_REGISTER}</TextTitle>
+                </div>
+                <div className='w-1/2 ...'>
+                    <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_NAME} name="name" type="text" 
                     addElementToArrayName={addElementToArrayName}
-                    validateFunction={validateInputPass()}
+                    validateFunction={validateInputMin(2)}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
-                <div className='form-group'>
-                    <FormInput isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_REPASS} name="repasswd" type="password" 
+                <div className='w-1/2 ...'>
+                    <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_LASTNAME} name="lastname" type="text" 
                     addElementToArrayName={addElementToArrayName}
-                    validateFunction={validateEqual("passOrig")}
+                    validateFunction={validateInputMin(2)}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
-            </div>
-            <div className='w-1/2 ...'>
-                <FormInput initialValue="Text" title={languages[myLanguaje].REGISTER.INPUT_OTHER} name="text" type="text" 
-                addElementToArrayName={addElementToArrayName}
-                setValue={setValues}></FormInput>
-            </div>
-            <div >
-                <CheckFormDropDown isRequired="true" initialValue="Argentina" title={languages[myLanguaje].REGISTER.INPUT_COUNTRY} name="country"
-                optionsSelect={([{name: 'Argentina', value: 'Argentina'}, {name: 'Uruguay', value: 'Uruguay'}])}
-                addElementToArrayName={addElementToArrayName}
-                setValidate={setValidates} setValue={setValues}></CheckFormDropDown>
-            </div>
-            <div >
-                {languages[myLanguaje].REGISTER.TEXT_REQUIRED_FIELDS}
-            </div>
-            <div>
-                <ButtonSubmit functionActionSubmit={submit} title={languages[myLanguaje].REGISTER.TEXT_SUBMIT}></ButtonSubmit>
+                <div className='w-1/2 ...'>
+                    <FormInput isRequired="true" initialValue="you@example.com" title={languages[myLanguaje].REGISTER.INPUT_EMAIL} name="email" type="email" 
+                    addElementToArrayName={addElementToArrayName}
+                    validateFunction={validateEmailInput()}
+                    setValidate={setValidates} setValue={setValues}></FormInput>
+                </div>
+                <div className="grid grid-cols-2 gap-4 w-1/2">
+                    <div className='form-group'>
+                        <FormInput Id="passOrig" isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_PASS} name="passwd" type="password" 
+                        addElementToArrayName={addElementToArrayName}
+                        validateFunction={validateInputPass()}
+                        setValidate={setValidates} setValue={setValues}></FormInput>
+                    </div>
+                    <div className='form-group'>
+                        <FormInput isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_REPASS} name="repasswd" type="password" 
+                        addElementToArrayName={addElementToArrayName}
+                        validateFunction={validateEqual("passOrig")}
+                        setValidate={setValidates} setValue={setValues}></FormInput>
+                    </div>
+                </div>
+                <div className='w-1/2 ...'>
+                    <FormInput initialValue="Text" title={languages[myLanguaje].REGISTER.INPUT_OTHER} name="text" type="text" 
+                    addElementToArrayName={addElementToArrayName}
+                    setValue={setValues}></FormInput>
+                </div>
+                <div >
+                    <CheckFormDropDown isRequired="true" initialValue="AR" title={languages[myLanguaje].REGISTER.INPUT_COUNTRY} name="country"
+                    dropText={languages[myLanguaje].REGISTER.SELECT}
+                    optionsSelect={constCountries}
+                    addElementToArrayName={addElementToArrayName}
+                    setValidate={setValidates} setValue={setValues}></CheckFormDropDown>
+                </div>
+                <div >
+                    {languages[myLanguaje].REGISTER.TEXT_REQUIRED_FIELDS}
+                </div>
+                <div>
+                    <ButtonSubmit functionActionSubmit={submit} title={languages[myLanguaje].REGISTER.TEXT_SUBMIT}></ButtonSubmit>
+                </div>
             </div>
         </div>
         </>

@@ -133,7 +133,7 @@ const FormInput = (props) => {
     }
 
     return(
-        <div >
+        <div className={classCss.classCssContentDiv}>
             <div className="titleOfInput">
             <span className={classnameRequired}>
                 {props.title}
@@ -150,6 +150,7 @@ const FormInput = (props) => {
     - initialValue
     - isRequired
     - title
+    - dropText = text into button
     - setValidate = function
     - setValue = function
     - addElementToArrayName = function
@@ -159,6 +160,7 @@ const CheckFormDropDown = (props) => {
     if(props.initialValue) isValidateDefault = true
     const [myValidate, setMyValidate] = useState(isValidateDefault);
     let id = props.Id
+    let classnameRequired
 
     // Register component into Array Name 
     if(props.addElementToArrayName) props.addElementToArrayName(props.name, props.title)
@@ -189,25 +191,34 @@ const CheckFormDropDown = (props) => {
         }else{
             myClassCss = classCss.classCssRedDropDown
         }
+        classnameRequired = classCss.classCssNameRequired
     }else{
         myClassCss = classCss.classCssBlueDropDown
+        classnameRequired = classCss.classCssNameNotRequired
     }
     
     return(
         <>
-        <div className="flex justify-center" onBlur={selectDropDown} >
-        <select className={myClassCss} onChange={selectDropDown} name={props.name} 
-          {... id? (id={id}) :''} 
-          defaultValue={props.initialValue}
-          validate={myValidate.toString()}>
-          <option value="#####">{props.title}</option>
-          {props.optionsSelect.map((element) => {
-              if(element.value === props.initialValue){
-                return (<option key={element.value} value={element.value}>{element.name}</option>)
-            } else
-                return (<option key={element.value} value={element.value}>{element.name}</option>)
-        })}
-        </select> 
+        <div className={classCss.classCssContentDiv}>
+          <div className="titleOfInput">
+              <span className={classnameRequired}>
+                  {props.title}
+              </span>
+              </div>
+          <div className="flex justify-center" onBlur={selectDropDown} >
+          <select className={myClassCss} onChange={selectDropDown} name={props.name} 
+            {... id? (id={id}) :''} 
+            defaultValue={props.initialValue}
+            validate={myValidate.toString()}>
+            <option value="#####">{props.dropText}</option>
+            {props.optionsSelect.list.map((element) => {
+                if(element.value === props.initialValue){
+                  return (<option key={element.value} value={element.value}>{element.name}</option>)
+              } else
+                  return (<option key={element.value} value={element.value}>{element.name}</option>)
+          })}
+          </select> 
+          </div>
         </div>
         </>
     )

@@ -14,12 +14,13 @@ export const languages = {
         INPUT_PASS: "Password",
         INPUT_REPASS: "Re-enter your password",
         INPUT_OTHER: "Write something about you",
-        INPUT_COUNTRY: "[Select your Country]",
+        INPUT_COUNTRY: "Select your Country",
         TEXT_REQUIRED_FIELDS: "* Required fields",
         TEXT_SUBMIT: "Submit",
         ERROR_ITEMS: "Some fields have an error: ",
         ERROR_SUBMIT: "Error. Connection issues",
-        OK_SUBMIT: 'Usted se ha registrado satisfactoriamente'
+        OK_SUBMIT: 'Usted se ha registrado satisfactoriamente',
+        SELECT: 'Select'
       },
   
       CONTACT: {
