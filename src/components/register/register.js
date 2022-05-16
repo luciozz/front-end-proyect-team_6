@@ -2,10 +2,11 @@ import { useRef } from "react";
 import { validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle, ModalWindow } from '../utils/forms';
 import { registerHandleSubmit } from "./registerConnector.js";
 import { languages } from "../../language";
-import { constCountries } from "../../constant.js"
+import { constCountries, classCss } from "../../constant.js"
 import './register.css';
 
 let myLanguaje = 'en'
+let myTheme = 'dark'
 
 function Register(props){
     //const [validateArray, setValidateArray] = useState({}) 
@@ -31,11 +32,11 @@ function Register(props){
 
     return (
         <>
-        <div className="dark">
+        <div className={myTheme}>
             <ModalWindow ref={refModalWindow} setValidate={onClickErrroModal}>
             </ModalWindow>
-            <div className="h-screen flex flex-col items-center ">
-                <div>
+            <div className="h-screen flex flex-col items-center dark:bg-gray-800">
+                <div className={classCss.classCssContentDiv}>
                     <TextTitle H="H4">{languages[myLanguaje].REGISTER.HEADING_REGISTER}</TextTitle>
                 </div>
                 <div className='w-1/2 ...'>
@@ -82,7 +83,7 @@ function Register(props){
                     addElementToArrayName={addElementToArrayName}
                     setValidate={setValidates} setValue={setValues}></CheckFormDropDown>
                 </div>
-                <div >
+                <div className={classCss.classCssTitleH6}>
                     {languages[myLanguaje].REGISTER.TEXT_REQUIRED_FIELDS}
                 </div>
                 <div>
@@ -118,11 +119,11 @@ function Register(props){
 
     function errorSubmit(e){
         //console.log('error submit', e)
-        refModalWindow.current.showModalWindow('Error', {__html: languages[myLanguaje].REGISTER.ERROR_SUBMIT}, true, 'red')
+        refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_ERROR, {__html: languages[myLanguaje].REGISTER.ERROR_SUBMIT}, true, 'red')
     }
 
     function okSubmit(e){
-        refModalWindow.current.showModalWindow('Registro finalizado', {__html: languages[myLanguaje].REGISTER.OK_SUBMIT}, true)
+        refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_COMPLETE, {__html: languages[myLanguaje].REGISTER.OK_SUBMIT}, true)
     }
     
 }

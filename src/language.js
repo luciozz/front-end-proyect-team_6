@@ -19,7 +19,9 @@ export const languages = {
         TEXT_SUBMIT: "Submit",
         ERROR_ITEMS: "Some fields have an error: ",
         ERROR_SUBMIT: "Error. Connection issues",
-        OK_SUBMIT: 'Usted se ha registrado satisfactoriamente',
+        REGISTRATION_COMPLETE: 'Registration complete',
+        REGISTRATION_ERROR: 'Error',
+        OK_SUBMIT: 'You have successfully registered',
         SELECT: 'Select'
       },
   

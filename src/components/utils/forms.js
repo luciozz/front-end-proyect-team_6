@@ -291,13 +291,13 @@ class ModalWindow extends React.Component {
       switch (color) {
             case 'normal':
             case 'white':
-                this.colorCss = "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+                this.colorCss = classCss.classCssModalWindow
             break
             case 'red':
-                this.colorCss = "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-red-100 text-red-900 text-sm rounded-md border border-red-200 outline-none focus:outline-none"
+                this.colorCss = classCss.classCssModalWindowRed
             break
             default:
-                this.colorCss = "border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"            
+                this.colorCss = classCss.classCssModalWindow
       }
     }
   
@@ -337,9 +337,10 @@ class ModalWindow extends React.Component {
                     {/*body*/}
                     <div className="relative p-6 flex-auto">
                       {(this.state.modalTextContent)? (
-                        <p className="my-4 text-slate-500 text-lg leading-relaxed" dangerouslySetInnerHTML={this.state.modalTextContent}>
-                        
-                      </p>
+                        <div className={classCss.classCssModalWindowText}>
+                          <p className="my-4 text-lg leading-relaxed" dangerouslySetInnerHTML={this.state.modalTextContent}>
+                          </p>
+                        </div>
                       ):null}
                     </div>
                     {this.children}
