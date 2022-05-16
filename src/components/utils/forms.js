@@ -281,7 +281,6 @@ class ModalWindow extends React.Component {
   
       this.state = {showModal: false}
       this.children = props.children
-      const setValue = props.setValue
       this.colorCss = ""
     }
   

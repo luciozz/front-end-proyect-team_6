@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import logo from './logo.svg';
 import './App.css';
 import Profile from './components/profile/profile.js';
 import Login from './components/login/login.js';
@@ -19,7 +18,7 @@ function App() {
           <Route path='/profile' element={<Profile/>} />
           <Route path='/register' element={<Register/>} />
           <Route path='/recovery' element={<RecoveryPass/>} />
-          <Route path='/test' element={<Test/>} />
+          <Route path='/test' element={<Test/>} /> 
         </Routes>
       </BrowserRouter>
     </div>
