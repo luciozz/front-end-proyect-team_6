@@ -10,7 +10,7 @@ export const languages = {
         HEADING_REGISTER: "Register",
         INPUT_NAME: "Name",
         INPUT_LASTNAME: "Last name",
-        INPUT_EMAIL: "Name",
+        INPUT_EMAIL: "Email",
         INPUT_PASS: "Password",
         INPUT_REPASS: "Re-enter your password",
         INPUT_OTHER: "Write something about you",
@@ -25,6 +25,19 @@ export const languages = {
         SELECT: 'Select'
       },
   
+      RECOVERYPASS: {
+        HEADING: "Recovery Password",
+        INPUT_EMAIL: "Email",
+        TEXT_REQUIRED_FIELDS: "* Required fields",
+        TEXT_SUBMIT: "Submit",
+        ERROR_ITEMS: "Some fields have an error: ",
+        ERROR_SUBMIT: "Error. Connection issues",
+        REGISTRATION_COMPLETE: 'Recovery pass process complete',
+        REGISTRATION_ERROR: 'Error',
+        OK_SUBMIT: 'You will receive an email soon',
+        SELECT: 'Select'
+      },
+
       CONTACT: {
         HEADING_CONTACT: "Contact Us",
         INPUT_PLACEHOLDER_EMAIL: "Write Your Email Here",

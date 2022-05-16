@@ -5,6 +5,7 @@ import Profile from './components/profile/profile.js';
 import Login from './components/login/login.js';
 import Register from './components/register/register.js';
 import Test from "./components/test/test";
+import RecoveryPass from "./components/recoveryPass/recoveryPass.js"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/login' element={<Login/>} />
           <Route path='/profile' element={<Profile/>} />
           <Route path='/register' element={<Register/>} />
+          <Route path='/recovery' element={<RecoveryPass/>} />
           <Route path='/test' element={<Test/>} />
         </Routes>
       </BrowserRouter>

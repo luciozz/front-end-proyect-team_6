@@ -113,7 +113,7 @@ function Register(props){
             console.log(valueArray)
             registerHandleSubmit(valueArray, errorSubmit, okSubmit)
         }catch(e){
-            refModalWindow.current.showModalWindow('Error', {__html: e}, true, 'red')
+            refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_ERROR, {__html: e}, true, 'red')
         }
     }
 

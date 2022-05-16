@@ -1,5 +1,6 @@
 export const URL_Register= 'https://jsonplaceholder.typicode.com/users/4'
 export const URL= 'https://jsonplaceholder.typicode.com/users/4'
+export const URL_RecoveryPass= 'https://jsonplaceholder.typicode.com/users/4'
 
 /* CSS constant */
 export const classCss = {
