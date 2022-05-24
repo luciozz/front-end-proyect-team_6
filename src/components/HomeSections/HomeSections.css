@@ -1,0 +1,3 @@
+.sectionContainer:hover svg {
+  transform: scale(0.9);
+}
