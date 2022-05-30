@@ -3,10 +3,11 @@ import NavBar from "./components/NavBar/NavBar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Profile from './components/profile/profile.js';
-import Login from './components/Login/Login.jsx';
+import Login from './components/Login/login.js';
 import Register from './components/register/register.js';
 import Test from "./components/test/test";
 import RecoveryPass from "./components/recoveryPass/recoveryPass.js"
+
 
 /*
 <Login></Login>
