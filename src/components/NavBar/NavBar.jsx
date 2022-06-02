@@ -9,7 +9,7 @@ const darkModeSwitcher = () =>{
 }
 
 const NavBar = () => {
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
 
   return (
     <>
