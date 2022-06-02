@@ -3,6 +3,7 @@
 
 import React from 'react';
 import './profile.css';
+import { ProfilePicture } from '../utils/forms';
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -31,7 +32,8 @@ export default class Profile extends React.Component {
                         name: json.name,
                         username: json.username,
                         email: json.email, 
-                        photo: "https://picsum.photos/200/300" //this.props.user.photo // No uso photo del JSON
+                        photo: "https://picsum.photos/200/300", //this.props.user.photo // No uso photo del JSON
+                        phone: "+555-9999-2222"
                     }
                 })
             })
@@ -39,24 +41,25 @@ export default class Profile extends React.Component {
     
     render() {
         return (
-            <div className="profile">
-                <div className="profile-header">
-                <div className="profile-header-photo">
-                    <img src={this.state.user.photo} alt="profile" />
+         
+            <div className="h-screen flex flex-col items-center dark:bg-gray-800">
+                <div className="grid grid-cols-2 gap-4 w-1/2">
+                <div className="form-group">
+
+                    <ProfilePicture></ProfilePicture>
                 </div>
-                <div className="profile-header-info">
+                <div className="form-group ">
                     <div className="profile-header-info-name">
                     {this.state.user.name}
                     </div>
                     <div className="profile-header-info-username">
                     @{this.state.user.username}
                     </div>
-                </div>
-                </div>
-                <div className="profile-body">
-                <div className="profile-body-info">
                     <div className="profile-body-info-email">
                     {this.state.user.email}
+                    </div>
+                    <div className="profile-body-info-phone">
+                    {this.state.user.phone}
                     </div>
                 </div>
                 </div>

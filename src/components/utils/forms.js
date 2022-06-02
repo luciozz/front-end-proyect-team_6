@@ -1,6 +1,6 @@
 /*import { render } from "@testing-library/react";*/
 import React, { useState }  from "react";
-import {classCss} from '../../constant.js'
+import {classCss, profileImage} from '../../constant.js'
 import './forms.css'
 
 
@@ -367,4 +367,14 @@ class ModalWindow extends React.Component {
   }
   
 
-export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow};
+const ProfilePicture = (props) => {
+    return (
+      <div className="card-zoom">
+        <div className="card-zoom-image">
+            <img src={(props.src)?props.src:profileImage.defaultImage} alt={props.alt}/>
+        </div>
+      </div>
+    )
+}
+
+export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow, ProfilePicture};
