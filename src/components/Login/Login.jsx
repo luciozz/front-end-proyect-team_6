@@ -1,13 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { app } from '../../firebase/firebase';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = (props) => {
     const username = '';
     const password = '';
     const navigate = useNavigate();
+    console.log("hola");
+    async function handleSubmit(event) {
 
-    function handleSubmit(event) {
-
+        console.log("hola");
         let jsonData = {
             "username": event.target.form[0].value,
             "password": event.target.form[1].value
@@ -21,18 +24,32 @@ const Login = (props) => {
             body: JSON.stringify(jsonData)
         };
 
+        const auth = getAuth();
+        const user = await signInWithEmailAndPassword(auth, event.target.form[0].value, event.target.form[1].value)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            // ...
+            //callBack(user);
+            console.log(user)
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });
         /*fetch(URL, options)
             .then(response => response.json())
             .then(json => {
                 console.log(json)
             });*/
-
-        if (jsonData.username && jsonData.password) {
+           
+       /* if (jsonData.username && jsonData.password) {
             console.log(options);
 
             navigate('/');
             event.preventDefault();
-        }
+        }*/
 
         
             
