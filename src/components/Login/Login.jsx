@@ -7,10 +7,11 @@ const Login = (props) => {
     const username = '';
     const password = '';
     const navigate = useNavigate();
-    console.log("hola");
-    async function handleSubmit(event) {
+    const userRegister = props.userRegister;
 
-        console.log("hola");
+    async function handleSubmit(event) {
+        event.preventDefault();
+
         let jsonData = {
             "username": event.target.form[0].value,
             "password": event.target.form[1].value
@@ -30,8 +31,17 @@ const Login = (props) => {
             // Signed in
             const user = userCredential.user;
             // ...
-            //callBack(user);
-            console.log(user)
+            //callBack(user);    
+            if (user) {
+                console.log(user);
+                
+                if(userRegister){
+                    userRegister(user)
+                }
+
+                navigate('/');
+                
+            }        
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -44,16 +54,11 @@ const Login = (props) => {
                 console.log(json)
             });*/
            
-       /* if (jsonData.username && jsonData.password) {
-            console.log(options);
-
-            navigate('/');
-            event.preventDefault();
-        }*/
+       
 
         
             
-        event.preventDefault();
+        
     }
 
     return (
