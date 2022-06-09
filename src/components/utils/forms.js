@@ -369,12 +369,13 @@ class ModalWindow extends React.Component {
 
 const ProfilePicture = (props) => {
     return (
-      <div className="card-zoom">
-        <div className="card-zoom-image">
-            <img src={(props.src)?props.src:profileImage.defaultImage} alt={props.alt}/>
+        <div className="card-zoom" style={{height: 10+'rem', width: 10+'rem'}}>
+            <img src={(props.src)?props.src:profileImage.defaultImage} alt={props.alt} className='card-zoom-image'/>
         </div>
-      </div>
     )
 }
+
+
+
 
 export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow, ProfilePicture};

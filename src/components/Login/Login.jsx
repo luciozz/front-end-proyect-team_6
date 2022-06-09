@@ -2,12 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { app } from '../../firebase/firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { FrontEndContext } from '../Context/FrontEndContext.js';
+import  FrontEndStatus from '../Context/FrontEndStatus.js';
 
 const Login = (props) => {
     const username = '';
     const password = '';
     const navigate = useNavigate();
-    const userRegister = props.userRegister;
+    let setUser = null
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -35,11 +37,12 @@ const Login = (props) => {
             if (user) {
                 console.log(user);
                 
-                if(userRegister){
-                    userRegister(user)
+                if(setUser){
+                    setUser(user)
                 }
 
-                navigate('/');
+                
+                navigate('/profile');
                 
             }        
           })
@@ -53,16 +56,19 @@ const Login = (props) => {
             .then(json => {
                 console.log(json)
             });*/
-           
-       
-
-        
-            
-        
     }
 
+    const hasUser = (Status)  => {
+        setUser = Status.toggleFrontEndContext;
+        console.log(Status.user);
+    }
     return (
         <div className="bg-slate-50 pt-20 min-h-screen dark:bg-gray-800">
+            <FrontEndContext.Consumer>
+            {(Status) => (
+						hasUser(Status)
+					)}
+            </FrontEndContext.Consumer>
         <div className="bg-slate-white dark:bg-slate-50 justify-center content-center mx-auto w-80 h-96 border-2 rounded-md">
             <h1 className="w-full text-center mt-5 mb-16">LogIn</h1>
             <form>
@@ -92,6 +98,8 @@ const Login = (props) => {
             </form>
         </div>
         </div>
+
+
     );
 
 }
