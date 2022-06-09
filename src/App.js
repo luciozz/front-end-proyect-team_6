@@ -10,6 +10,7 @@ import RecoveryPass from "./components/recoveryPass/recoveryPass.js";
 import Error from "./Pages/Error/Error";
 import Footer from "./components/footer/Footer";
 
+
 /*
 <Login></Login>
 <span>Hola Esto es otro componente</span>
