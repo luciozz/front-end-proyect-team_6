@@ -4,6 +4,9 @@ import { registerHandleSubmit } from "./registerConnector.js";
 import { languages } from "../../language";
 import { constCountries, classCss } from "../../constant.js"
 import './register.css';
+import { FrontEndContext } from '../Context/FrontEndContext.js';
+import { Navigate } from "react-router-dom";
+
 
 let myLanguaje = 'en'
 let myTheme = 'dark'
@@ -30,8 +33,19 @@ function Register(props){
     const refModalWindow = useRef(null);
     const onClickErrroModal = () => {}
 
+    const hasUser = (Status) => {
+    }
+
     return (
         <>
+        <FrontEndContext.Consumer>
+            {(Status) => {
+                if(Status.userDarkMode){
+                    return (<Navigate to="/profile" replace={true} />)
+                }
+				hasUser(Status) 
+			}}
+        </FrontEndContext.Consumer>
         <div className={myTheme}>
             <ModalWindow ref={refModalWindow} setValidate={onClickErrroModal}>
             </ModalWindow>

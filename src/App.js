@@ -8,7 +8,7 @@ import Profile from './components/profile/profile.js';
 import Register from './components/register/register.js';
 import Test from "./components/test/test";
 import RecoveryPass from "./components/recoveryPass/recoveryPass.js"
-import Login from './components/Login/Login.jsx';
+import Login from './components/login/Login.jsx';
 
 import FrontEndStatus from "./components/Context/FrontEndStatus";
 
@@ -35,7 +35,7 @@ function App() {
 
   return ( //     <FrontEndStatus>
     <>
-
+  <FrontEndStatus>
         <NavBar />
         <Routes>
           <Route path="/">
@@ -48,6 +48,7 @@ function App() {
             <Route path='test' element={<Test />} />
           </Route>
         </Routes>
+    </FrontEndStatus>
     </>
   );
 }

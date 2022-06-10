@@ -5,28 +5,24 @@ import React from 'react';
 import './profile.css';
 import { ProfilePicture } from '../utils/forms';
 import { Redirect } from 'react-router';
-import { FrontEndContext, darkMode, user } from '../Context/FrontEndContext.js';
+import { FrontEndContext } from '../Context/FrontEndContext.js';
+import { Navigate } from "react-router-dom";
 
 export default class Profile extends React.Component {
    state = {user: {}};
 
     constructor(props) {
         super(props);
-
-       
-        if(FrontEndContext.user){ 
-            this.state = {
-                    user: {
-                        name: FrontEndContext.user.name,
-                        username: FrontEndContext.user.username,
-                        email: FrontEndContext.user.email,
-                        photo: '',
-                        providerID: FrontEndContext.user.providerID,
-                        token: FrontEndContext.user.token,
-                    },
-            };
-        }else{
-            // Si no hay usuario, navego a login
+        this.state = {
+            user: {
+                name: '',
+                username: '',
+                email: '', 
+                photo: '',
+                phone: '',
+                providerID:'',
+                token: '', 
+            }
         }
     }
     
@@ -52,7 +48,20 @@ export default class Profile extends React.Component {
     }
 
     hasUser (Status){
-        console.log(Status.user);
+        if(Status.userDarkMode.user.accessToken !== this.state.user.token){
+            this.setState({ 
+                user: {
+                    name: Status.userDarkMode.user.displayName,
+                    username: Status.userDarkMode.user.username,
+                    email: Status.userDarkMode.user.email,
+                    photo: '',
+                    providerID: Status.userDarkMode.user.providerId,
+                    token: Status.userDarkMode.user.accessToken,
+                },
+            }
+            )
+        }; 
+        console.log(Status.userDarkMode);
     }
     
     render() {
@@ -60,9 +69,12 @@ export default class Profile extends React.Component {
         return (
             <div className="h-screen flex flex-col items-center dark:bg-gray-800">
             <FrontEndContext.Consumer>
-            {(Status) => (
-						this.hasUser(Status)
-					)}
+            {(Status) => {
+                if(!Status.userDarkMode){
+                    return (<Navigate to="/login" replace={true} />)
+                }
+						this.hasUser(Status) 
+					}}
             </FrontEndContext.Consumer>
                 <div className="grid grid-cols-2 gap-4 w-1/2">
                 <div className="col-span-1">
@@ -74,7 +86,7 @@ export default class Profile extends React.Component {
                     {this.state.user.name}
                     </div>
                     <div className="profile-header-info-username">
-                    @{this.state.user.username}
+                    {this.state.user.username}
                     </div>
                     <div className="profile-body-info-email">
                     {this.state.user.email}
