@@ -28,7 +28,7 @@ import FrontEndState from "./components/Context/FrontEndState";
 
 function App() {
   return (
-    <BrowserRouter>
+    <FrontEndState>
       <NavBar />
       <Routes>
         <Route path="/">
@@ -43,7 +43,7 @@ function App() {
         </Route>
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </FrontEndState>
   );
 }
 
