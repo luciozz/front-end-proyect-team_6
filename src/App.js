@@ -3,12 +3,14 @@ import NavBar from "./components/NavBar/NavBar";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Pages/Home/Home";
-import Profile from './components/profile/profile.js';
-//import Login from './components/login/login.js';
-import Register from './components/register/register.js';
-import Test from "./components/test/test";
-import RecoveryPass from "./components/recoveryPass/recoveryPass.js"
+
 import Login from './components/login/Login.jsx';
+import Profile from "./components/profile/profile.js";
+import Register from "./components/register/register.js";
+import Test from "./components/test/test";
+import RecoveryPass from "./components/recoveryPass/recoveryPass.js";
+import Error from "./Pages/Error/Error";
+import Footer from "./components/footer/Footer";
 
 import FrontEndState from "./components/Context/FrontEndState";
 
@@ -25,31 +27,23 @@ import FrontEndState from "./components/Context/FrontEndState";
 */
 
 function App() {
-  const [user, setUser] = useState(null);	//Estado de usuario
-  const [isLogged, setIsLogged] = useState(false);	//Estado de login
-
-  const handleLogin = (user) => {
-    setUser(user);
-    setIsLogged(true);
-  }
-
-  return ( //     <FrontEndStatus>
-    <>
-  <FrontEndState>
-        <NavBar />
-        <Routes>
-          <Route path="/">
-            <Route index element={<Home />} />
-            <Route path='register' element={<Register />} />
-            <Route path='login' element={<Login userRegister={handleLogin} />} />
-            <Route path='profile' element={<Profile />} />
-            <Route path='register' element={<Register/>} />
-            <Route path='recovery' element={<RecoveryPass/>} />
-            <Route path='test' element={<Test />} />
-          </Route>
-        </Routes>
-    </FrontEndState>
-    </>
+  return (
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/">
+          <Route index element={<Home />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="register" element={<Register />} />
+          <Route path="recovery" element={<RecoveryPass />} />
+          <Route path="test" element={<Test />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
