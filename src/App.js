@@ -42,9 +42,9 @@ function App() {
             <Route index element={<Home />} />
             <Route path='register' element={<Register />} />
             <Route path='login' element={<Login userRegister={handleLogin} />} />
-            <Route path='profile' element={<Profile myUser={user} />} />
-            <Route path='register' element={<Register myUser={user} />} />
-            <Route path='recovery' element={<RecoveryPass myUser={user} />} />
+            <Route path='profile' element={<Profile />} />
+            <Route path='register' element={<Register/>} />
+            <Route path='recovery' element={<RecoveryPass/>} />
             <Route path='test' element={<Test />} />
           </Route>
         </Routes>
