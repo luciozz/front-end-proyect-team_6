@@ -2,8 +2,7 @@ import React from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { app } from '../../firebase/firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { FrontEndContext } from '../Context/FrontEndContext.js';
-import  FrontEndStatus from '../Context/FrontEndStatus.js';
+import FrontEndStatusConsumer from '../Context/FrontEndStatusConsumer.js';
 
 const Login = (props) => {
     const username = '';
@@ -63,17 +62,9 @@ const Login = (props) => {
         console.log(Status.userDarkMode.user);
     }
     return (
+        <FrontEndStatusConsumer receiveStatus={hasUser} condition={true} pathOut="/profile">
         <div className="bg-slate-50 pt-20 min-h-screen dark:bg-gray-800">
-            <FrontEndContext.Consumer>
-          
-            {(Status) => {
-						hasUser(Status)
-                        if(Status.userDarkMode.user){
-                            return (<Navigate to="/profile" replace={true} />)
-                        }
-                    }}
-          
-            </FrontEndContext.Consumer>
+            
         <div className="bg-slate-white dark:bg-slate-50 justify-center content-center mx-auto w-80 h-96 border-2 rounded-md">
             <h1 className="w-full text-center mt-5 mb-16">LogIn</h1>
             <form>
@@ -100,10 +91,13 @@ const Login = (props) => {
                 <div className="text-sm text-center">
                     <a href="/recovery" className="font-medium text-slate-600 hover:text-slate-500">¿Olvidaste tu contraseña?</a>
                 </div>
+                <div className="text-sm text-center pt-1">
+                    <a href="/register" className="font-medium text-slate-600 hover:text-slate-500">Quiero Registrarme</a>
+                </div>
             </form>
         </div>
         </div>
-
+        </FrontEndStatusConsumer>
 
     );
 

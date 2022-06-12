@@ -1,21 +1,29 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle, ModalWindow } from '../utils/forms';
 import { registerHandleSubmit } from "./registerConnector.js";
 import { languages } from "../../language";
 import { constCountries, classCss } from "../../constant.js"
 import './register.css';
-import { FrontEndContext } from '../Context/FrontEndContext.js';
 import { Navigate } from "react-router-dom";
-
+import FrontEndStatusConsumer from '../Context/FrontEndStatusConsumer.js';
 
 let myLanguaje = 'en'
 let myTheme = 'dark'
 
 function Register(props){
-    //const [validateArray, setValidateArray] = useState({}) 
+    const [defaulValues, setDefaulValues] = useState( {
+        INPUT_NAME: '..',
+        INPUT_LASTNAME: '..',
+        INPUT_EMAIL: 'you@example.com',
+        INPUT_PASS: '**',
+        INPUT_REPASS: '**',
+        INPUT_OTHER: 'Text',
+        INPUT_COUNTRY: 'AR',
+    }) 
     let nameOfElementsArray = {}
     let validateArray = {}
     let valueArray = {}
+    
 
     const addElementToArrayName = (name, title) =>{
         nameOfElementsArray[name] = title
@@ -34,18 +42,26 @@ function Register(props){
     const onClickErrroModal = () => {}
 
     const hasUser = (Status) => {
+        if(Status.userDarkMode.user){
+            if(Status.userDarkMode.user.accessToken !== defaulValues.TOKEN){
+                setDefaulValues( {
+                    INPUT_NAME: Status.userDarkMode.user.displayName,
+                    INPUT_LASTNAME: '',
+                    INPUT_EMAIL: Status.userDarkMode.user.email,
+                    INPUT_PASS: '**',
+                    INPUT_REPASS: '**',
+                    INPUT_OTHER: 'Text',
+                    INPUT_COUNTRY: 'AR',
+                    TOKEN: Status.userDarkMode.user.accessToken,
+                    emailReadOnly: true,
+                }) 
+                return true
+            }
+        }
     }
 
     return (
-        <>
-        <FrontEndContext.Consumer>
-            {(Status) => {
-                if(Status.userDarkMode){
-                    return (<Navigate to="/profile" replace={true} />)
-                }
-				hasUser(Status) 
-			}}
-        </FrontEndContext.Consumer>
+        <FrontEndStatusConsumer receiveStatus={hasUser} condition={true}>
         <div className={myTheme}>
             <ModalWindow ref={refModalWindow} setValidate={onClickErrroModal}>
             </ModalWindow>
@@ -54,44 +70,45 @@ function Register(props){
                     <TextTitle H="H4">{languages[myLanguaje].REGISTER.HEADING_REGISTER}</TextTitle>
                 </div>
                 <div className='w-1/2 ...'>
-                    <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_NAME} name="name" type="text" 
+                    <FormInput isRequired="true" initialValue={defaulValues.INPUT_NAME} title={languages[myLanguaje].REGISTER.INPUT_NAME} name="name" type="text" 
                     addElementToArrayName={addElementToArrayName}
                     validateFunction={validateInputMin(2)}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
                 <div className='w-1/2 ...'>
-                    <FormInput isRequired="true" initialValue=".." title={languages[myLanguaje].REGISTER.INPUT_LASTNAME} name="lastname" type="text" 
+                    <FormInput isRequired="true" initialValue={defaulValues.INPUT_LASTNAME} title={languages[myLanguaje].REGISTER.INPUT_LASTNAME} name="lastname" type="text" 
                     addElementToArrayName={addElementToArrayName}
                     validateFunction={validateInputMin(2)}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
                 <div className='w-1/2 ...'>
-                    <FormInput isRequired="true" initialValue="you@example.com" title={languages[myLanguaje].REGISTER.INPUT_EMAIL} name="email" type="email" 
+                    <FormInput isRequired="true" initialValue={defaulValues.INPUT_EMAIL} title={languages[myLanguaje].REGISTER.INPUT_EMAIL} name="email" type="email" 
                     addElementToArrayName={addElementToArrayName}
                     validateFunction={validateEmailInput()}
+                    readOnly={defaulValues.emailReadOnly}
                     setValidate={setValidates} setValue={setValues}></FormInput>
                 </div>
                 <div className="grid grid-cols-2 gap-4 w-1/2">
                     <div className='form-group'>
-                        <FormInput Id="passOrig" isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_PASS} name="passwd" type="password" 
+                        <FormInput Id="passOrig" isRequired="true" initialValue={defaulValues.INPUT_PASS} title={languages[myLanguaje].REGISTER.INPUT_PASS} name="passwd" type="password" 
                         addElementToArrayName={addElementToArrayName}
                         validateFunction={validateInputPass()}
                         setValidate={setValidates} setValue={setValues}></FormInput>
                     </div>
                     <div className='form-group'>
-                        <FormInput isRequired="true" initialValue="**" title={languages[myLanguaje].REGISTER.INPUT_REPASS} name="repasswd" type="password" 
+                        <FormInput isRequired="true" initialValue={defaulValues.INPUT_REPASS} title={languages[myLanguaje].REGISTER.INPUT_REPASS} name="repasswd" type="password" 
                         addElementToArrayName={addElementToArrayName}
                         validateFunction={validateEqual("passOrig")}
                         setValidate={setValidates} setValue={setValues}></FormInput>
                     </div>
                 </div>
                 <div className='w-1/2 ...'>
-                    <FormInput initialValue="Text" title={languages[myLanguaje].REGISTER.INPUT_OTHER} name="text" type="text" 
+                    <FormInput initialValue={defaulValues.INPUT_OTHER} title={languages[myLanguaje].REGISTER.INPUT_OTHER} name="text" type="text" 
                     addElementToArrayName={addElementToArrayName}
                     setValue={setValues}></FormInput>
                 </div>
                 <div >
-                    <CheckFormDropDown isRequired="true" initialValue="AR" title={languages[myLanguaje].REGISTER.INPUT_COUNTRY} name="country"
+                    <CheckFormDropDown isRequired="true" initialValue={defaulValues.INPUT_COUNTRY} title={languages[myLanguaje].REGISTER.INPUT_COUNTRY} name="country"
                     dropText={languages[myLanguaje].REGISTER.SELECT}
                     optionsSelect={constCountries}
                     addElementToArrayName={addElementToArrayName}
@@ -105,7 +122,7 @@ function Register(props){
                 </div>
             </div>
         </div>
-        </>
+        </FrontEndStatusConsumer>
     )
 
     function submit(){

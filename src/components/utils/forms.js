@@ -103,6 +103,7 @@ const FormInput = (props) => {
     let classnameRequired
     let myClassCss = ""
     let id = props.Id
+    let disabled = (props.readOnly)?'disabled':''
 
     // Register component into Array Name 
     if(props.addElementToArrayName) props.addElementToArrayName(props.name, props.title)
@@ -118,7 +119,12 @@ const FormInput = (props) => {
     }
 
     if(props.isRequired){
-        props.setValidate(props.name, myValidate)
+      if((disabled === 'disabled') && !myValidate){
+        setMyValidate(true)  
+      }
+
+      props.setValidate(props.name, myValidate)
+      
 
         if(myValidate) {
             myClassCss = classCss.classCssGreen
@@ -139,7 +145,7 @@ const FormInput = (props) => {
                 {props.title}
             </span>
             </div>
-          <input {... id? (id={id}) :''} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue} />
+          <input {... id? (id={id}) :''} {... {disabled}} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue}  />
         </div>
     )
 }

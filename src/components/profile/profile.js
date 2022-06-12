@@ -4,9 +4,13 @@
 import React from 'react';
 import './profile.css';
 import { ProfilePicture } from '../utils/forms';
-import { Redirect } from 'react-router';
-import { FrontEndContext } from '../Context/FrontEndContext.js';
-import { Navigate } from "react-router-dom";
+import FrontEndStatusConsumer from '../Context/FrontEndStatusConsumer.js';
+import { validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle, ModalWindow } from '../utils/forms';
+import { languages } from "../../language";
+import { Navigate  } from "react-router-dom";
+
+let myLanguaje = 'en'
+let myTheme = 'dark'
 
 export default class Profile extends React.Component {
    state = {user: {}};
@@ -63,19 +67,19 @@ export default class Profile extends React.Component {
         }; 
         console.log(Status.userDarkMode);
     }
+
+    edit(){
+        //this.history.push('/register')
+        this.setState({goToEdit: true})
+        
+    }
     
     render() {
-
-        return (
+        if (this.state.goToEdit){
+            return <Navigate to="/register"/>
+        }else return (
+            <FrontEndStatusConsumer receiveStatus={this.hasUser.bind(this)} condition={false} pathOut="/login">
             <div className="h-screen flex flex-col items-center dark:bg-gray-800">
-            <FrontEndContext.Consumer>
-            {(Status) => {
-                if(!Status.userDarkMode){
-                    return (<Navigate to="/login" replace={true} />)
-                }
-						this.hasUser(Status) 
-					}}
-            </FrontEndContext.Consumer>
                 <div className="grid grid-cols-2 gap-4 w-1/2">
                 <div className="col-span-1">
 
@@ -99,8 +103,10 @@ export default class Profile extends React.Component {
                 <div className="">
                     {this.state.user.providerID}
                 </div>
+                <ButtonSubmit functionActionSubmit={this.edit.bind(this)} title={languages[myLanguaje].PROFILE.TEXT_EDIT}></ButtonSubmit>
             </div>
-       
+
+            </FrontEndStatusConsumer>
         );
     }
 }
