@@ -1,21 +1,21 @@
 import { Navigate } from "react-router-dom";
-import { FrontEndContext } from '../Context/FrontEndContext.js';
+import { FrontEndContext } from './FrontEndContext.js';
 
-    const FrontEndStatusConsumer = (props) => {
+    const FrontEndStateConsumer = (props) => {
         //const navigate = useNavigate();
     return (
         <>
             <FrontEndContext.Consumer>
-                {(Status) => {
-                    if((props.condition && Status.userDarkMode.user)||
-                    (!(props.condition) && !(Status.userDarkMode.user))){
+                {(state) => {
+                    if((props.condition && state.globalState.user)||
+                    (!(props.condition) && !(state.globalState.user))){
                         //navigate(props.pathOut);
                         if(props.pathOut){
                             return (<Navigate to={props.pathOut} />);
                         }
                     }
-                    if(props.receiveStatus){
-                        props.receiveStatus(Status);
+                    if(props.receiveState){
+                        props.receiveState(state);
                     }
                 }}
 
@@ -25,4 +25,4 @@ import { FrontEndContext } from '../Context/FrontEndContext.js';
         )
     }
 
-    export default FrontEndStatusConsumer;
+    export default FrontEndStateConsumer;

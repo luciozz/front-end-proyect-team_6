@@ -1,27 +1,27 @@
 import { FrontEndContext } from "./FrontEndContext";
 import { useState } from "react";
 
-const FrontEndStatus = ({children}) => {
-    const [userDarkMode, setUserDarkMode] = useState(false);
-    const toggleFrontEndContext = (newUser, newDarkMode = null) => {
+const FrontEndState = ({children}) => {
+    const [globalState, setGlobalState] = useState(false);
+    const toggleGlobalState = (newUser, newDarkMode = null) => {
         if(newDarkMode !== null){
             const newContextA = {
                 user: newUser,
                 darkMode: newDarkMode,
             }
-            setUserDarkMode(newContextA);
+            setGlobalState(newContextA);
         }else{
             const newContextB = {
                 user: newUser,
             }
-            setUserDarkMode(newContextB);
+            setGlobalState(newContextB);
         }
     };
     return (
-        <FrontEndContext.Provider value={{ userDarkMode, toggleFrontEndContext }}>
+        <FrontEndContext.Provider value={{ globalState, toggleGlobalState }}>
             {children}
         </FrontEndContext.Provider>
     );
 }
 
-export default FrontEndStatus;
+export default FrontEndState;

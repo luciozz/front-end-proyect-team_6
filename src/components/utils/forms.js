@@ -110,16 +110,22 @@ const FormInput = (props) => {
 
     const lastCheck = (e) => {
         if(props.isRequired){
+          if(props.defaultValidate && (e.target.value.length === 0 )){
+            setMyValidate(true)
+          }else{
             setMyValidate(props.validateFunction(e))
-            props.setValidate(props.name, myValidate)
-            props.setValue(e)
+          }
+          props.setValidate(props.name, myValidate)
+          props.setValue(e)
         }else{
             props.setValue(e)
         }
     }
 
     if(props.isRequired){
-      if((disabled === 'disabled') && !myValidate){
+      if(((disabled === 'disabled') || (props.defaultValidate))
+      && !myValidate)
+      {
         setMyValidate(true)  
       }
 

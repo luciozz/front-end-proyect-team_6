@@ -20,7 +20,7 @@ const NavBar = () => {
         <button onClick={darkModeSwitcher} className="text-orange-100 px-2 rounded transition duration-500 ease-in-out hover:bg-orange-500 hover:text-orange-50 cursor-pointer dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-orange-500">Dark Mode</button>
         <button className="text-orange-100 px-2 rounded transition duration-500 ease-in-out hover:bg-orange-500 hover:text-orange-50 cursor-pointer dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-orange-500">Idioma</button>
       </div>
-      <div className="mr-10"><button><Link to={isLogin ? "profile" : "login"}>{isLogin ? "Mi perfil" : "Login/Registrarse"}</Link></button></div>
+      <div className="mr-10 dark:text-slate-50"><button><Link to={isLogin ? "profile" : "login"}>{isLogin ? "Mi perfil" : "Login/Registrarse"}</Link></button></div>
     </nav>
     </>
   )

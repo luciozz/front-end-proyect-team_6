@@ -10,7 +10,7 @@ import Test from "./components/test/test";
 import RecoveryPass from "./components/recoveryPass/recoveryPass.js"
 import Login from './components/login/Login.jsx';
 
-import FrontEndStatus from "./components/Context/FrontEndStatus";
+import FrontEndState from "./components/Context/FrontEndState";
 
 /*
 <Login></Login>
@@ -35,7 +35,7 @@ function App() {
 
   return ( //     <FrontEndStatus>
     <>
-  <FrontEndStatus>
+  <FrontEndState>
         <NavBar />
         <Routes>
           <Route path="/">
@@ -48,7 +48,7 @@ function App() {
             <Route path='test' element={<Test />} />
           </Route>
         </Routes>
-    </FrontEndStatus>
+    </FrontEndState>
     </>
   );
 }

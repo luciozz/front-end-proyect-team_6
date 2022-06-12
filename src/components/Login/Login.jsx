@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { app } from '../../firebase/firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import FrontEndStatusConsumer from '../Context/FrontEndStatusConsumer.js';
+import FrontEndStateConsumer from '../Context/FrontEndStateConsumer.js';
+import { FirebaseConnector, FirebaseProvider } from '../../firebase/FirebaseConnector';
 
 const Login = (props) => {
     const username = '';
@@ -26,43 +27,35 @@ const Login = (props) => {
             body: JSON.stringify(jsonData)
         };
 
-        const auth = getAuth();
-        const user = await signInWithEmailAndPassword(auth, event.target.form[0].value, event.target.form[1].value)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            // ...
-            //callBack(user);    
-            if (user) {
-                console.log(user);
-                
-                if(setUser){
-                    setUser(user)
-                }
+        const myFirebaseConnector = new FirebaseConnector({authProvider: FirebaseProvider.DEFAULT});
 
-                
-                navigate('/profile');
-                
-            }        
-          })
-          .catch((error) => {
+        const response = myFirebaseConnector.getAuthUser(event.target.form[0].value, event.target.form[1].value)
+        .then((userData) => {
+            if(setUser){
+                const userProfileData = myFirebaseConnector.getUser(userData.ID)
+                .then((userProfileData) => {
+                    userProfileData.ID = userData.ID
+                    userProfileData.email = userData.email
+                    userProfileData.accessToken = userData.token
+                    userProfileData.providerId = myFirebaseConnector.getProviderID()
+                    setUser(userProfileData)
+                    navigate('/profile');
+                })
+            }
+        }).catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
           });
-        /*fetch(URL, options)
-            .then(response => response.json())
-            .then(json => {
-                console.log(json)
-            });*/
+
     }
 
-    const hasUser = (Status)  => {
-        setUser = Status.toggleFrontEndContext;
-        console.log(Status.userDarkMode.user);
+    const hasUser = (state)  => {
+        setUser = state.toggleGlobalState;
+        console.log(state.globalState.user);
     }
     return (
-        <FrontEndStatusConsumer receiveStatus={hasUser} condition={true} pathOut="/profile">
+        <FrontEndStateConsumer receiveState={hasUser} condition={true} pathOut="/profile">
         <div className="bg-slate-50 pt-20 min-h-screen dark:bg-gray-800">
             
         <div className="bg-slate-white dark:bg-slate-50 justify-center content-center mx-auto w-80 h-96 border-2 rounded-md">
@@ -97,10 +90,43 @@ const Login = (props) => {
             </form>
         </div>
         </div>
-        </FrontEndStatusConsumer>
+        </FrontEndStateConsumer>
 
     );
 
 }
 
 export default Login;
+
+
+        /* OTROS AUTH
+        
+        const auth = getAuth();
+        const user = await signInWithEmailAndPassword(auth, event.target.form[0].value, event.target.form[1].value)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            // ...
+            //callBack(user);    
+            if (user) {
+                console.log(user);
+                
+                if(setUser){
+                    setUser(user)
+                }
+
+                
+                navigate('/profile');
+                
+            }        
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });*/
+        /*fetch(URL, options)
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+            });*/

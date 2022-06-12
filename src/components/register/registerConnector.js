@@ -1,8 +1,25 @@
 import { URL_Register } from '../../constant';
+import { FirebaseConnector } from '../../firebase/FirebaseConnector';
 
-const registerHandleSubmit = (arrayOfValues, errorSubmitFunction, okSubmitFunction) => {
+const registerHandleSubmit =  async (arrayOfValues, errorSubmitFunction, okSubmitFunction, providerId) => {
 
-        const options = {
+    let firebaseConnector = new FirebaseConnector(providerId);
+    
+    await firebaseConnector.setUser({
+        Id: arrayOfValues.Id,   // Id of user
+        country: arrayOfValues.country,
+        lastname: arrayOfValues.lastname,
+        message: arrayOfValues.text,
+        name: arrayOfValues.name,
+        email: arrayOfValues.email,
+        username: arrayOfValues.username,
+
+    }).then((e) => {
+        okSubmitFunction(e)
+    }).catch((error) => {
+        errorSubmitFunction(error)
+    })
+/*    const options = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -21,9 +38,8 @@ const registerHandleSubmit = (arrayOfValues, errorSubmitFunction, okSubmitFuncti
                     errorSubmitFunction(json)
                 }
                 
-            }).catch((e)=>{ errorSubmitFunction(e)});
+            }).catch((e)=>{ errorSubmitFunction(e)});*/
     }
-
 export { registerHandleSubmit }
 
  
