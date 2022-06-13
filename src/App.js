@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 
-import Login from './components/login/Login.jsx';
+import Login from './components/Login/Login.jsx';
 import Profile from "./components/profile/profile.js";
 import Register from "./components/register/register.js";
 import Test from "./components/test/test";

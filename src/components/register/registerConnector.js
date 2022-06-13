@@ -1,24 +1,48 @@
 import { URL_Register } from '../../constant';
-import { FirebaseConnector } from '../../firebase/FirebaseConnector';
+import { FirebaseConnector, FirebaseProvider } from '../../firebase/FirebaseConnector';
 
-const registerHandleSubmit =  async (arrayOfValues, errorSubmitFunction, okSubmitFunction, providerId) => {
+const registerHandleSubmit =  async (arrayOfValues, errorSubmitFunction, okSubmitFunction, providerId, token) => {
 
-    let firebaseConnector = new FirebaseConnector(providerId);
-    
-    await firebaseConnector.setUser({
-        Id: arrayOfValues.Id,   // Id of user
-        country: arrayOfValues.country,
-        lastname: arrayOfValues.lastname,
-        message: arrayOfValues.text,
-        name: arrayOfValues.name,
-        email: arrayOfValues.email,
-        username: arrayOfValues.username,
+    let MyproviderId
+    if (providerId){
+        MyproviderId = providerId;
+    }else{
+        MyproviderId = FirebaseProvider.DEFAULT;
+    }
+    let firebaseConnector = new FirebaseConnector({authProvider: MyproviderId});
 
-    }).then((e) => {
-        okSubmitFunction(e)
-    }).catch((error) => {
-        errorSubmitFunction(error)
-    })
+    if(token){ // Es modificacion de usuario
+        await firebaseConnector.setUser({
+            Id: arrayOfValues.Id,   // Id of user
+            country: arrayOfValues.country,
+            lastname: arrayOfValues.lastname,
+            message: arrayOfValues.text,
+            name: arrayOfValues.name,
+            email: arrayOfValues.email,
+            username: arrayOfValues.username,
+            picture: arrayOfValues.picture,
+        }).then((e) => {
+            okSubmitFunction(e)
+        }).catch((error) => {
+            errorSubmitFunction(error)
+        })
+    }else{ // Es nuevo usuario
+        await firebaseConnector.addUser({
+            country: arrayOfValues.country,
+            lastname: arrayOfValues.lastname,
+            message: arrayOfValues.text,
+            name: arrayOfValues.name,
+            email: arrayOfValues.email,
+            username: arrayOfValues.username,
+            picture: arrayOfValues.picture,
+            pass: arrayOfValues.pass,
+        }).then((e) => {
+            okSubmitFunction(e)
+        }).catch((error) => {
+            errorSubmitFunction(error)
+        })
+    }
+
 /*    const options = {
             method: "POST",
             headers: {
@@ -39,7 +63,7 @@ const registerHandleSubmit =  async (arrayOfValues, errorSubmitFunction, okSubmi
                 }
                 
             }).catch((e)=>{ errorSubmitFunction(e)});*/
-    }
+}
 export { registerHandleSubmit }
 
  

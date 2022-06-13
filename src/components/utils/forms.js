@@ -75,7 +75,7 @@ const validateEmailInput = () => {
 
     const funcionParametrizada = (event) => {
         let pass = event.target.value;            
-        let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+        let reg = /^\w+([.-.+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
         
         return reg.test(pass);
     }

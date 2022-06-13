@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, onValue, get, child } from "firebase/database";
 import { doc, getDoc, setDoc, getFirestore, Timestamp  } from "firebase/firestore";
 import { app } from "./firebase";
@@ -81,5 +81,49 @@ export class FirebaseConnector {
         }
         await setDoc(docRef, userLikeUsers);
     }
+
+    async addUser(aUser) {
+        const userLikeUsers = {
+          country: (aUser.country)?aUser.country:'',
+          lastname: (aUser.lastname)?aUser.lastname:'',
+          message: (aUser.message)?aUser.message:'',
+          name: (aUser.name)?aUser.name:'',
+          picture: (aUser.picture)?aUser.picture:'',
+          timestamp: Timestamp.fromDate(new Date()),
+          username: (aUser.username)?aUser.username:'',
+      }
+
+      if(this.authProvider === FirebaseProvider.DEFAULT){
+        const auth = getAuth();
+        const user = await createUserWithEmailAndPassword(auth, aUser.email, aUser.pass)
+        .then((userCredential) => {
+          // Signed in
+          if (userCredential.user) {
+            this.user = userCredential.user;
+            userLikeUsers.Id = this.user.uid;
+            
+            const docRef = doc(this.firestore, 'Users', userLikeUsers.Id);
+            setDoc(docRef, userLikeUsers)
+            .then(() => {
+              userLikeUsers.providerId = this.user.providerId;
+              userLikeUsers.accessToken = this.user.accessToken;
+              return userLikeUsers
+            })
+            .catch((error) => {          
+              // ...
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              console.log(errorCode, errorMessage);
+            })
+          }
+        }).catch((error) => {          
+          // ...
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+        })
+      }
+    }
+      
 
 }

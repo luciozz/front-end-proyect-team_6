@@ -66,7 +66,7 @@ function Register(props){
                     providerId: state.globalState.user.providerId,
                     token: state.globalState.user.accessToken,
                     Id: state.globalState.user.ID,
-                }) 
+                })
                 return true
             }
         }
@@ -185,7 +185,7 @@ function Register(props){
             }
 
             console.log(valueArray)
-            registerHandleSubmit(valueArray, errorSubmit, okSubmit, defaultValues.providerId)
+            registerHandleSubmit(valueArray, errorSubmit, okSubmit, defaultValues.providerId, defaultValues.token)
         }catch(e){
             refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_ERROR, {__html: e}, true, 'red')
         }
@@ -199,7 +199,7 @@ function Register(props){
     function okSubmit(e){
         refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_COMPLETE, {__html: languages[myLanguaje].REGISTER.OK_SUBMIT}, true)
         if(setUser){ //email: valueArray.email,
-            setUser({
+            let aUser = {
                 name: valueArray.name,
                 lastname: valueArray.lastname,
                 message: valueArray.text,
@@ -211,7 +211,12 @@ function Register(props){
                 provider: valueArray.provider,
                 accessToken: valueArray.token,
                 ID: valueArray.Id,
-            })
+            }
+            if(e){
+                aUser.accessToken = e.accessToken
+                aUser.ID = e.Id
+            }
+            setUser(aUser)
         }
         setDefaulValues({successRegister: true,})
     }
