@@ -1,6 +1,6 @@
 /*import { render } from "@testing-library/react";*/
 import React, { useState }  from "react";
-import {classCss} from '../../constant.js'
+import {classCss, profileImage} from '../../constant.js'
 import './forms.css'
 
 
@@ -103,22 +103,34 @@ const FormInput = (props) => {
     let classnameRequired
     let myClassCss = ""
     let id = props.Id
+    let disabled = (props.readOnly)?'disabled':''
 
     // Register component into Array Name 
     if(props.addElementToArrayName) props.addElementToArrayName(props.name, props.title)
 
     const lastCheck = (e) => {
         if(props.isRequired){
+          if(props.defaultValidate && (e.target.value.length === 0 )){
+            setMyValidate(true)
+          }else{
             setMyValidate(props.validateFunction(e))
-            props.setValidate(props.name, myValidate)
-            props.setValue(e)
+          }
+          props.setValidate(props.name, myValidate)
+          props.setValue(e)
         }else{
             props.setValue(e)
         }
     }
 
     if(props.isRequired){
-        props.setValidate(props.name, myValidate)
+      if(((disabled === 'disabled') || (props.defaultValidate))
+      && !myValidate)
+      {
+        setMyValidate(true)  
+      }
+
+      props.setValidate(props.name, myValidate)
+      
 
         if(myValidate) {
             myClassCss = classCss.classCssGreen
@@ -139,7 +151,7 @@ const FormInput = (props) => {
                 {props.title}
             </span>
             </div>
-          <input {... id? (id={id}) :''} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue} />
+          <input {... id? (id={id}) :''} {... {disabled}} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue}  />
         </div>
     )
 }
@@ -367,4 +379,15 @@ class ModalWindow extends React.Component {
   }
   
 
-export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow};
+const ProfilePicture = (props) => {
+    return (
+        <div className="card-zoom" style={{height: 10+'rem', width: 10+'rem'}}>
+            <img src={(props.src)?props.src:profileImage.defaultImage} alt={props.alt} className='card-zoom-image'/>
+        </div>
+    )
+}
+
+
+
+
+export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow, ProfilePicture};

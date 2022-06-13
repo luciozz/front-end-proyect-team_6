@@ -6,7 +6,7 @@ import { classCss } from "../../constant.js"
 
 
 let myLanguaje = 'en'
-let myTheme = 'dark'
+let myTheme = 'white'
 
 
 function RecoveryPass(props){

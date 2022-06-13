@@ -26,7 +26,11 @@ export const classCss = {
     classCssContentDiv: "bg-white dark:bg-gray-800"
 }
 
+export const profileImage = {
+    defaultImage: '/images/default-avatar-profile.jpg',
+    class: 'card-zoom-image',
 
+}
 
 /* Country list */
 export const constCountries = {
