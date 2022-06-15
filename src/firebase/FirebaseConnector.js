@@ -79,7 +79,8 @@ export class FirebaseConnector {
             timestamp: Timestamp.fromDate(new Date()),
             username: (aUser.username)?aUser.username:'',
         }
-        await setDoc(docRef, userLikeUsers);
+        const result = await setDoc(docRef, userLikeUsers);
+        return result
     }
 
     async addUser(aUser) {
@@ -96,34 +97,13 @@ export class FirebaseConnector {
       if(this.authProvider === FirebaseProvider.DEFAULT){
         const auth = getAuth();
         const user = await createUserWithEmailAndPassword(auth, aUser.email, aUser.pass)
-        .then((userCredential) => {
-          // Signed in
-          if (userCredential.user) {
-            this.user = userCredential.user;
-            userLikeUsers.Id = this.user.uid;
-            
-            const docRef = doc(this.firestore, 'Users', userLikeUsers.Id);
-            setDoc(docRef, userLikeUsers)
-            .then(() => {
-              userLikeUsers.providerId = this.user.providerId;
-              userLikeUsers.accessToken = this.user.accessToken;
-              return userLikeUsers
-            })
-            .catch((error) => {          
-              // ...
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              console.log(errorCode, errorMessage);
-            })
-          }
-        }).catch((error) => {          
-          // ...
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-        })
+        userLikeUsers.Id = user.user.uid;
+        userLikeUsers.accessToken = user.user.accessToken;
+        userLikeUsers.providerId = user.user.providerId;
+        const result = await this.setUser(userLikeUsers);
+        return userLikeUsers
+      
       }
     }
       
-
 }

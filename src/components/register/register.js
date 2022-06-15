@@ -215,6 +215,7 @@ function Register(props){
             if(e){
                 aUser.accessToken = e.accessToken
                 aUser.ID = e.Id
+                aUser.providerId = e.providerId;
             }
             setUser(aUser)
         }
