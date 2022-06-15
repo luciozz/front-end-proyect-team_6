@@ -66,6 +66,7 @@ function Register(props){
                     providerId: state.globalState.user.providerId,
                     token: state.globalState.user.accessToken,
                     Id: state.globalState.user.ID,
+                    authCredential: state.globalState.user.authCredential,
                 })
                 return true
             }
@@ -185,6 +186,7 @@ function Register(props){
             }
 
             console.log(valueArray)
+            if(valueArray.passwd===defaultValues.passwd){valueArray.defaultPasswd = defaultValues.passwd; valueArray.passwd = null; }
             registerHandleSubmit(valueArray, errorSubmit, okSubmit, defaultValues.providerId, defaultValues.token)
         }catch(e){
             refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_ERROR, {__html: e}, true, 'red')
