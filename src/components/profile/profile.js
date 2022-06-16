@@ -109,7 +109,7 @@ export default class Profile extends React.Component {
                     {languages[myLanguaje].PROFILE.COUNTRY}: <span className="font-bold">{this.state.user.country}</span>
                     </div>
                     <div className=" dark:text-slate-50">
-                    {languages[myLanguaje].PROFILE.PROVIDERID}: <span className="font-bold  dark:text-slate-50">{this.state.user.providerID}</span>
+                    {languages[myLanguaje].PROFILE.PROVIDERID}: <span className="font-bold  dark:text-slate-50">{this.state.user.providerId}</span>
                 </div>    
                 </div>
                 </div>

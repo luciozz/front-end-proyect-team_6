@@ -75,7 +75,7 @@ const validateEmailInput = () => {
 
     const funcionParametrizada = (event) => {
         let pass = event.target.value;            
-        let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+        let reg = /^\w+([.-.+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
         
         return reg.test(pass);
     }
@@ -176,7 +176,8 @@ const CheckFormDropDown = (props) => {
 
     // Register component into Array Name 
     if(props.addElementToArrayName) props.addElementToArrayName(props.name, props.title)
-    if(props.value) props.setValue(props.name, props.value)
+    if(props.initialValue) props.setValue({target: {value: props.initialValue, name: props.name}})
+    if(props.isRequired){props.setValidate(props.name, myValidate)}
 
     const selectDropDown = (e) => {
         if(props.isRequired){

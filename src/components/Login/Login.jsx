@@ -38,6 +38,7 @@ const Login = (props) => {
                     userProfileData.email = userData.email
                     userProfileData.accessToken = userData.token
                     userProfileData.providerId = myFirebaseConnector.getProviderID()
+                    userProfileData.authCredential = myFirebaseConnector.getAuthCredential()
                     setUser(userProfileData)
                     navigate('/profile');
                 })
