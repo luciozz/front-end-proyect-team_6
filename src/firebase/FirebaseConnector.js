@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail  } from "firebase/auth";
 import { getDatabase, ref, onValue, get, child } from "firebase/database";
 import { doc, getDoc, setDoc, getFirestore, Timestamp  } from "firebase/firestore";
 import { app } from "./firebase";
@@ -122,5 +122,10 @@ export class FirebaseConnector {
         return userLikeUsers
       
       }
+    }
+
+    async resetPassword(email){
+        const auth = getAuth();
+        return await sendPasswordResetEmail(auth, email);
     }
 }

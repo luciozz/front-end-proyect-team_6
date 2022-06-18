@@ -23,6 +23,7 @@ const registerHandleSubmit =  async (arrayOfValues, errorSubmitFunction, okSubmi
             picture: arrayOfValues.picture,
             pass: arrayOfValues.passwd,
             authCredential: arrayOfValues.authCredential,
+            defaultPasswd: arrayOfValues.defaultPasswd,
         }).then((e) => {
             okSubmitFunction(e)
         }).catch((error) => {

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect  } from "react";
 import { validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateInputPass, validateEqual, TextTitle, ModalWindow } from '../utils/forms';
 import { registerHandleSubmit } from "./registerConnector.js";
 import { languages } from "../../language";
@@ -26,6 +26,7 @@ function Register(props){
     let validateArray = {}
     let valueArray = {}
     let setUser = null
+    let globalStateUser = null
 
     const addElementToArrayName = (name, title) =>{
         nameOfElementsArray[name] = title
@@ -49,9 +50,32 @@ function Register(props){
     const refModalWindow = useRef(null);
     const onClickErrroModal = () => {}
 
+    useEffect(() => {
+        if((globalStateUser)&&(globalStateUser.accessToken  !== defaultValues.token)){
+            setDefaulValues( {
+                name: globalStateUser.name,
+                lastname: globalStateUser.lastname,
+                email: globalStateUser.email,
+                passwd: '**',
+                repasswd: '**',
+                username: globalStateUser.username,
+                text: globalStateUser.message,
+                country: globalStateUser.country,
+                picture: globalStateUser.picture,
+                emailReadOnly: true,
+                providerId: globalStateUser.providerId,
+                token: globalStateUser.accessToken,
+                Id: globalStateUser.ID,
+                authCredential: globalStateUser.authCredential,
+            })
+            
+        }}
+        )
+
     const hasUser = (state) => {
         if(state.globalState.user){
-            if(state.globalState.user.accessToken  !== defaultValues.token){
+            globalStateUser = state.globalState.user
+/*            if(state.globalState.user.accessToken  !== defaultValues.token){
                 setDefaulValues( {
                     name: state.globalState.user.name,
                     lastname: state.globalState.user.lastname,
@@ -69,7 +93,7 @@ function Register(props){
                     authCredential: state.globalState.user.authCredential,
                 })
                 return true
-            }
+            }*/
         }
         setUser = state.toggleGlobalState;
         console.log(state.globalState);
@@ -186,8 +210,12 @@ function Register(props){
             }
 
             console.log(valueArray)
-            if(valueArray.passwd===defaultValues.passwd){valueArray.defaultPasswd = defaultValues.passwd; valueArray.passwd = null; }
-            registerHandleSubmit(valueArray, errorSubmit, okSubmit, defaultValues.providerId, defaultValues.token)
+            if(valueArray.passwd===defaultValues.passwd){
+                valueArray.passwd = null; 
+                registerHandleSubmit(valueArray, errorSubmit, okSubmit, defaultValues.providerId, defaultValues.token)
+            }else{
+                inputPassword(valueArray)
+            }
         }catch(e){
             refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.REGISTRATION_ERROR, {__html: e}, true, 'red')
         }
@@ -223,6 +251,16 @@ function Register(props){
         }
         setDefaulValues({successRegister: true,})
     }
+    function callbackinputPassword(form){
+        console.log(form[1].value)
+        valueArray.defaultPasswd = form[1].value
+        registerHandleSubmit(valueArray, errorSubmit, okSubmit, defaultValues.providerId, defaultValues.token)
+    }
+    function inputPassword(){
+        
+        refModalWindow.current.showModalWindow(languages[myLanguaje].REGISTER.INPUT_PASSTOCHANGE, {__html: "<div width='100%' align='center'><input name='currentpassword' type='password'></input></div>"}, true, 'red', callbackinputPassword)
+    }
+
     
 }
 
