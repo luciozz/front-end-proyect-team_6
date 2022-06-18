@@ -1,7 +1,17 @@
 import { URL_RecoveryPass } from '../../constant';
+import { FirebaseConnector, FirebaseProvider } from '../../firebase/FirebaseConnector';
 
-const recoveryPassHandleSubmit = (arrayOfValues, errorSubmitFunction, okSubmitFunction) => {
+const recoveryPassHandleSubmit = async (arrayOfValues, errorSubmitFunction, okSubmitFunction) => {
 
+    let myFirebaseConnector = new FirebaseConnector({authProvider: FirebaseProvider.DEFAULT});
+
+    await myFirebaseConnector.resetPassword(arrayOfValues.email)
+    .then ((e) => {
+            okSubmitFunction(e)
+        }).catch ((error) => {
+            errorSubmitFunction(error)
+        })
+    /*
         const options = {
             method: "POST",
             headers: {
@@ -21,9 +31,9 @@ const recoveryPassHandleSubmit = (arrayOfValues, errorSubmitFunction, okSubmitFu
                     errorSubmitFunction(json)
                 }
                 
-            }).catch((e)=>{ errorSubmitFunction(e)});
+            }).catch((e)=>{ errorSubmitFunction(e)});*/
     }
-
+        
 export { recoveryPassHandleSubmit }
 
  
