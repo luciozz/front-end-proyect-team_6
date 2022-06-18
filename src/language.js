@@ -14,6 +14,7 @@ export const languages = {
         INPUT_EMAIL: "Email",
         INPUT_PASS: "Password",
         INPUT_REPASS: "Re-enter your password",
+        INPUT_PASSTOCHANGE: "Enter your current password",
         INPUT_OTHER: "Write something about you",
         INPUT_PICTURE: "A link to your picture",
         INPUT_COUNTRY: "Select your Country",

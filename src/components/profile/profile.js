@@ -31,43 +31,28 @@ export default class Profile extends React.Component {
     }
     
     componentDidMount() {
-        /*this.setState({
-        user: this.props.user,
-        });
-        // Que pasaria si el fetch no funciona? o tarda mucho?
-        fetch('https://jsonplaceholder.typicode.com/users/5')
-            .then(response => response.json())
-            .then(json => {
-                console.log(json)
-                this.setState({
-                    user: {
-                        name: json.name,
-                        username: json.username,
-                        email: json.email, 
-                        photo: "https://picsum.photos/200/300", //this.props.user.photo // No uso photo del JSON
-                        phone: "+555-9999-2222"
-                    }
-                })
-            })*/
+        if(this.globalStateUser.accessToken !== this.state.user.token){
+        this.setState({ 
+                user: {
+                    name: this.globalStateUser.name,
+                    lastname: this.globalStateUser.lastname,
+                    username: this.globalStateUser.username,
+                    email: this.globalStateUser.email,
+                    message: this.globalStateUser.message,
+                    picture: this.globalStateUser.picture,
+                    country: this.globalStateUser.country,
+                    providerId: this.globalStateUser.providerId,
+                    token: this.globalStateUser.accessToken,
+                    Id: this.globalStateUser.Id,
+                },
+            }
+            )
+        }
     }
 
     hasUser (state){
         if(state.globalState.user.accessToken !== this.state.user.token){
-            this.setState({ 
-                user: {
-                    name: state.globalState.user.name,
-                    lastname: state.globalState.user.lastname,
-                    username: state.globalState.user.username,
-                    email: state.globalState.user.email,
-                    message: state.globalState.user.message,
-                    picture: state.globalState.user.picture,
-                    country: state.globalState.user.country,
-                    providerId: state.globalState.user.providerId,
-                    token: state.globalState.user.accessToken,
-                    Id: state.globalState.user.Id,
-                },
-            }
-            )
+            this.globalStateUser = state.globalState.user
         }; 
         console.log(state.userDarkMode);
     }
