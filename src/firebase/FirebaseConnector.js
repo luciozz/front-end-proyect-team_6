@@ -128,4 +128,24 @@ export class FirebaseConnector {
         const auth = getAuth();
         return await sendPasswordResetEmail(auth, email);
     }
+
+  async setProject(aProject) {
+    try{
+      const d = new Date();
+      const projectLikeProyectos = {
+        title: (aProject.title)?aProject.title:'',
+        user: (aProject.user)?aProject.user:'',
+        imgs: (aProject.imgs)?aProject.imgs:'',
+        desc: (aProject.desc)?aProject.desc:'',
+        Id: (aProject.Id)?aProject.Id:d.toString()+Math.random().toString(),
+      }
+      const docRef = doc(this.firestore, 'proyectos', projectLikeProyectos.Id);
+      const result = await setDoc(docRef, projectLikeProyectos);
+      return result
+    }catch(error){
+      console.log(error);
+    }
+  }
+
 }
+
