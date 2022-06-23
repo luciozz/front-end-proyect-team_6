@@ -1,6 +1,6 @@
 /*import { render } from "@testing-library/react";*/
 import React, { useState }  from "react";
-import {classCss} from '../../constant.js'
+import {classCss, profileImage} from '../../constant.js'
 import './forms.css'
 
 
@@ -75,7 +75,7 @@ const validateEmailInput = () => {
 
     const funcionParametrizada = (event) => {
         let pass = event.target.value;            
-        let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+        let reg = /^\w+([.-.+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
         
         return reg.test(pass);
     }
@@ -103,22 +103,34 @@ const FormInput = (props) => {
     let classnameRequired
     let myClassCss = ""
     let id = props.Id
+    let disabled = (props.readOnly)?'disabled':''
 
     // Register component into Array Name 
     if(props.addElementToArrayName) props.addElementToArrayName(props.name, props.title)
 
     const lastCheck = (e) => {
         if(props.isRequired){
+          if(props.defaultValidate && (e.target.value.length === 0 )){
+            setMyValidate(true)
+          }else{
             setMyValidate(props.validateFunction(e))
-            props.setValidate(props.name, myValidate)
-            props.setValue(e)
+          }
+          props.setValidate(props.name, myValidate)
+          props.setValue(e)
         }else{
             props.setValue(e)
         }
     }
 
     if(props.isRequired){
-        props.setValidate(props.name, myValidate)
+      if(((disabled === 'disabled') || (props.defaultValidate))
+      && !myValidate)
+      {
+        setMyValidate(true)  
+      }
+
+      props.setValidate(props.name, myValidate)
+      
 
         if(myValidate) {
             myClassCss = classCss.classCssGreen
@@ -139,7 +151,7 @@ const FormInput = (props) => {
                 {props.title}
             </span>
             </div>
-          <input {... id? (id={id}) :''} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue} />
+          <input {... id? (id={id}) :''} {... {disabled}} onBlur={lastCheck} validate={myValidate.toString()} type={props.type} name={props.name} className={myClassCss} placeholder={props.initialValue}  />
         </div>
     )
 }
@@ -164,7 +176,8 @@ const CheckFormDropDown = (props) => {
 
     // Register component into Array Name 
     if(props.addElementToArrayName) props.addElementToArrayName(props.name, props.title)
-    if(props.value) props.setValue(props.name, props.value)
+    if(props.initialValue) props.setValue({target: {value: props.initialValue, name: props.name}})
+    if(props.isRequired){props.setValidate(props.name, myValidate)}
 
     const selectDropDown = (e) => {
         if(props.isRequired){
@@ -284,7 +297,10 @@ class ModalWindow extends React.Component {
       this.colorCss = ""
     }
   
-    showModalWindow(title, textContent, onButtonOk, color){
+    showModalWindow(title, textContent, onButtonOk, color, callback=null){
+      if(callback){
+        this.callback = callback
+      }
 
       this.setState({showModal: true, modalTitle: title, modalTextContent: textContent, modalOnButtonOK: onButtonOk})
       switch (color) {
@@ -302,6 +318,9 @@ class ModalWindow extends React.Component {
   
     setShowModal(state){
       this.setState({showModal: state})
+      if(this.callback){
+        this.callback(document.getElementById('formModal'))
+      } 
     }
     
     onClickModal(e){
@@ -319,6 +338,7 @@ class ModalWindow extends React.Component {
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                   {/*content*/}
                   <div className={this.colorCss}>
+                  <form id="formModal">
                     {/*header*/}
                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                       <h3 className="text-3xl font-semibold">
@@ -355,6 +375,7 @@ class ModalWindow extends React.Component {
                         </button>
                       ):null}
                     </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -367,4 +388,15 @@ class ModalWindow extends React.Component {
   }
   
 
-export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow};
+const ProfilePicture = (props) => {
+    return (
+        <div className="card-zoom" style={{height: 10+'rem', width: 10+'rem'}}>
+            <img src={(props.src)?props.src:profileImage.defaultImage} alt={props.alt} className='card-zoom-image'/>
+        </div>
+    )
+}
+
+
+
+
+export { useFormInput, validateInputPass, validateInputMin, validateEmailInput, ButtonSubmit, CheckFormDropDown, FormInput, validateEqual, TextTitle, ModalWindow, ProfilePicture};
