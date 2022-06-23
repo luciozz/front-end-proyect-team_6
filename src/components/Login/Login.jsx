@@ -1,12 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { app } from "../../firebase/firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = (props) => {
     const username = '';
     const password = '';
     const navigate = useNavigate();
 
-    function handleSubmit(event) {
+    console.log(app);
+
+    async function handleSubmit(event) {
 
         let jsonData = {
             "username": event.target.form[0].value,
@@ -27,10 +31,28 @@ const Login = (props) => {
                 console.log(json)
             });*/
 
+        const auth = getAuth();
+        
+
         if (jsonData.username && jsonData.password) {
             console.log(options);
 
-            navigate('/');
+            signInWithEmailAndPassword(auth, event.target.form[0].value, event.target.form[1].value)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                // ...
+                //callBack(user);
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+    
+                console.log('ErrorCode Firebase: ', errorCode);
+                console.log('ErrorMessage Firebase: ', errorMessage);
+              });
+
+            // navigate('/');
             event.preventDefault();
         }
 
