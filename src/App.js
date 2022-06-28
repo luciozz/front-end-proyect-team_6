@@ -2,14 +2,6 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
-<<<<<<< HEAD
-import Profile from './components/profile/profile.js';
-import Login from './components/Login/Login.jsx';
-import Register from './components/register/register.js';
-import Test from "./components/test/test";
-import RecoveryPass from "./components/recoveryPass/recoveryPass.js"
-=======
->>>>>>> 5fc180e8c5a712df9fbb11f28900a3c3118ddebb
 
 import Login from './components/Login/Login.jsx';
 import Profile from "./components/profile/profile.js";

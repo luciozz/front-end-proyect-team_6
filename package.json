@@ -10,11 +10,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
-    "firebase": "^9.8.2",
-=======
     "firebase": "^9.8.3",
->>>>>>> 5fc180e8c5a712df9fbb11f28900a3c3118ddebb
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",

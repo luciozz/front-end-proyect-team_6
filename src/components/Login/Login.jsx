@@ -1,15 +1,9 @@
 import React from "react";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-import { app } from "../../firebase/firebase";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-=======
 import { useNavigate, Navigate } from "react-router-dom";
 import { app } from '../../firebase/firebase';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import FrontEndStateConsumer from '../Context/FrontEndStateConsumer.js';
 import { FirebaseConnector, FirebaseProvider } from '../../firebase/FirebaseConnector';
->>>>>>> 5fc180e8c5a712df9fbb11f28900a3c3118ddebb
 
 const Login = (props) => {
     const username = '';
@@ -17,14 +11,8 @@ const Login = (props) => {
     const navigate = useNavigate();
     let setUser = null
 
-<<<<<<< HEAD
-    console.log(app);
-
-    async function handleSubmit(event) {
-=======
     async function handleSubmit(event) {
         event.preventDefault();
->>>>>>> 5fc180e8c5a712df9fbb11f28900a3c3118ddebb
 
         let jsonData = {
             "username": event.target.form[0].value,
@@ -39,38 +27,6 @@ const Login = (props) => {
             body: JSON.stringify(jsonData)
         };
 
-<<<<<<< HEAD
-        /*fetch(URL, options)
-            .then(response => response.json())
-            .then(json => {
-                console.log(json)
-            });*/
-
-        const auth = getAuth();
-        
-
-        if (jsonData.username && jsonData.password) {
-            console.log(options);
-
-            signInWithEmailAndPassword(auth, event.target.form[0].value, event.target.form[1].value)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                // ...
-                //callBack(user);
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-    
-                console.log('ErrorCode Firebase: ', errorCode);
-                console.log('ErrorMessage Firebase: ', errorMessage);
-              });
-
-            // navigate('/');
-            event.preventDefault();
-        }
-=======
         const myFirebaseConnector = new FirebaseConnector({authProvider: FirebaseProvider.DEFAULT});
 
         const response = myFirebaseConnector.getAuthUser(event.target.form[0].value, event.target.form[1].value)
@@ -92,7 +48,6 @@ const Login = (props) => {
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
           });
->>>>>>> 5fc180e8c5a712df9fbb11f28900a3c3118ddebb
 
     }
 
