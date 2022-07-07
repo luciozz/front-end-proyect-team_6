@@ -36,8 +36,8 @@ Semana: 2/5 9. Consumiendo APIs
 | React Rooter Dom     | Maximiliano | <ul><li>- [x] completed</li></ul> |
 | Login                |    Lucio    | <ul><li>- [x] completed</li></ul> |
 | Listado Proyectos    |    Lucio    | <ul><li>- [x] completed</li></ul> |
-| Footer               |    Lucio    | <ul><li>- [x] completed</li></ul> |
-| 404Page              |    Lucio    | <ul><li>- [x] completed</li></ul> |
+| Footer               |   Esteban   | <ul><li>- [x] completed</li></ul> |
+| 404Page              |   Esteban   | <ul><li>- [x] completed</li></ul> |
 
 ---
 
