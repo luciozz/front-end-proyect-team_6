@@ -24,20 +24,20 @@ Semana: 2/5 9. Consumiendo APIs
 
 -
 
-| Componente           | Team Member |                                             # Status |
-| -------------------- | :---------: | ---------------------------------------------------: |
-| Registro de Usuario  |  Alejandro  | <ul><li>- [x] completed</li><li>- [ ] todo</li></ul> |
-| Recuperar contraseña |  Alejandro  |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| Perfil de Usuario    |  Alejandro  |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| Contexto             |  Alejandro  |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| Home                 | Maximiliano |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| DarkMode             | Maximiliano |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| NavBar               | Maximiliano |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| React Rooter Dom     | Maximiliano |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| Login                |    Lucio    |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| Listado Proyectos    |    Lucio    |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| Footer               |    Lucio    |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
-| 404Page              |    Lucio    |  <ul><li>- [x] completed</li><li>- [] todo</li></ul> |
+| Componente           | Team Member |                          # Status |
+| -------------------- | :---------: | --------------------------------: |
+| Registro de Usuario  |  Alejandro  | <ul><li>- [x] completed</li></ul> |
+| Recuperar contraseña |  Alejandro  | <ul><li>- [x] completed</li></ul> |
+| Perfil de Usuario    |  Alejandro  | <ul><li>- [x] completed</li></ul> |
+| Contexto             |  Alejandro  | <ul><li>- [x] completed</li></ul> |
+| Home                 | Maximiliano | <ul><li>- [x] completed</li></ul> |
+| DarkMode             | Maximiliano | <ul><li>- [x] completed</li></ul> |
+| NavBar               | Maximiliano | <ul><li>- [x] completed</li></ul> |
+| React Rooter Dom     | Maximiliano | <ul><li>- [x] completed</li></ul> |
+| Login                |    Lucio    | <ul><li>- [x] completed</li></ul> |
+| Listado Proyectos    |    Lucio    | <ul><li>- [x] completed</li></ul> |
+| Footer               |    Lucio    | <ul><li>- [x] completed</li></ul> |
+| 404Page              |    Lucio    | <ul><li>- [x] completed</li></ul> |
 
 ---
 
