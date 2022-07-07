@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail  } from "firebase/auth";
 import { getDatabase, ref, onValue, get, child } from "firebase/database";
 import { doc, getDoc, setDoc, getFirestore, Timestamp  } from "firebase/firestore";
 import { app } from "./firebase";
@@ -123,4 +123,29 @@ export class FirebaseConnector {
       
       }
     }
+
+    async resetPassword(email){
+        const auth = getAuth();
+        return await sendPasswordResetEmail(auth, email);
+    }
+
+  async setProject(aProject) {
+    try{
+      const d = new Date();
+      const projectLikeProyectos = {
+        title: (aProject.title)?aProject.title:'',
+        user: (aProject.user)?aProject.user:'',
+        imgs: (aProject.imgs)?aProject.imgs:'',
+        desc: (aProject.desc)?aProject.desc:'',
+        Id: (aProject.Id)?aProject.Id:d.toString()+Math.random().toString(),
+      }
+      const docRef = doc(this.firestore, 'proyectos', projectLikeProyectos.Id);
+      const result = await setDoc(docRef, projectLikeProyectos);
+      return result
+    }catch(error){
+      console.log(error);
+    }
+  }
+
 }
+

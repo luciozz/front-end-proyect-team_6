@@ -297,7 +297,10 @@ class ModalWindow extends React.Component {
       this.colorCss = ""
     }
   
-    showModalWindow(title, textContent, onButtonOk, color){
+    showModalWindow(title, textContent, onButtonOk, color, callback=null){
+      if(callback){
+        this.callback = callback
+      }
 
       this.setState({showModal: true, modalTitle: title, modalTextContent: textContent, modalOnButtonOK: onButtonOk})
       switch (color) {
@@ -315,6 +318,9 @@ class ModalWindow extends React.Component {
   
     setShowModal(state){
       this.setState({showModal: state})
+      if(this.callback){
+        this.callback(document.getElementById('formModal'))
+      } 
     }
     
     onClickModal(e){
@@ -332,6 +338,7 @@ class ModalWindow extends React.Component {
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                   {/*content*/}
                   <div className={this.colorCss}>
+                  <form id="formModal">
                     {/*header*/}
                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                       <h3 className="text-3xl font-semibold">
@@ -368,6 +375,7 @@ class ModalWindow extends React.Component {
                         </button>
                       ):null}
                     </div>
+                    </form>
                   </div>
                 </div>
               </div>

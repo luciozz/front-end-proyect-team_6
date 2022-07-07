@@ -82,7 +82,7 @@ function RecoveryPass(props){
 
     function errorSubmit(e){
         //console.log('error submit', e)
-        refModalWindow.current.showModalWindow(languages[myLanguaje].RECOVERYPASS.REGISTRATION_ERROR, {__html: languages[myLanguaje].RECOVERYPASS.ERROR_SUBMIT}, true, 'red')
+        refModalWindow.current.showModalWindow(languages[myLanguaje].RECOVERYPASS.REGISTRATION_ERROR, {__html: '<p>'+languages[myLanguaje].RECOVERYPASS.ERROR_SUBMIT+'</p><p>'+e+'</p>'}, true, 'red')
     }
 
     function okSubmit(e){
